@@ -6,53 +6,52 @@ module ActionBuilder
   module ClassMethods
 
 
-    def has_actions_for(mod, *args)
-      options = args.extract_options!      
+    def has_actions_for(model, *args)
+      options = args.extract_options!
       actions = get_actions(options)
-      module_name = mod.name
-      collection_name = module_name.tableize
+      collection_name = model.name.tableize
       instance_name = collection_name.singularize
 
       define_method "index" do
-        collection = mod.find(:all, eval_params(options[:find]))
+        collection = model.find(:all, eval_params(options[:find]))
         instance_variable_set("@#{collection_name}", collection)
-        instance_variable_set("@#{instance_name}", mod.new(eval_params(options[:new]))) # if (resource_type == :simple_record)
+        instance_variable_set("@#{instance_name}", model.new(eval_params(options[:new]))) # if (resource_type == :simple_record)
         respond_with(collection)
       end if actions.member? :index
       
       define_method "show" do
-        record = mod.find(params[:id])
+        record = model.find(params[:id])
         instance_variable_set("@#{instance_name}", record)
         respond_with(record)
       end if actions.member? :show
     
       define_method "new" do
-        record = mod.new(eval_params(options[:new]))
+        record = model.new(eval_params(options[:new]))
         instance_variable_set("@#{instance_name}", record)
         respond_with(record)
       end if actions.member? :new
 
       define_method "edit" do
-        record = mod.find(params[:id])
+        record = model.find(params[:id])
         instance_variable_set("@#{instance_name}", record)
       end if actions.member? :edit
     
       define_method "create" do
-        record = mod.new(params[instance_name])
+        record = model.new(params[instance_name])
         instance_variable_set("@#{instance_name}",record)
         record.save
         respond_with(record)
       end if actions.member? :create
 
       define_method "update" do
-        record = mod.find(params[:id])
+        record = model.find(params[:id])
         instance_variable_set("@#{instance_name}",record)
         record.update_attributes(params[instance_name])
         respond_with(record)
       end if actions.member? :update
 
       define_method "destroy" do
-        record = mod.find(params[:id])
+        record = model.find(params[:id])
         instance_variable_set("@#{instance_name}",record)
         record.destroy
         respond_with(record)
