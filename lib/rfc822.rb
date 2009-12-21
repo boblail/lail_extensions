@@ -13,9 +13,31 @@
 # cf http://lindsaar.net/2008/4/14/tip-4-detecting-a-valid-email-address
 module RFC822
   
-  ValidEmailAddress = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i 
+  ValidEmailAddress = begin
+    
+    # todo: this is simple, I should research and expand it    
+    #  A. contains an '@'
+    #  B. before '@' 
+    #    1. should start with a letter
+    #    2. can contain letters, numbers or - . _
+    #    3. should end with a letter or number
+    #  C. after '@'
+    #    1. must contain more than one letter
+    #    2. may contain a .
+    #    3. should not end with a .
+    
+    # todo: should probably add unicode characters
+    let = "[a-zA-Z]" # letters
+    lan = "[a-zA-Z0-9]" # letters and numbers
+    any = "[\\w\\.-]" # all valid characters
+    
+    /\A#{let}#{any}*#{lan}@#{lan}#{any}*#{let}\z/
+  end
   
-  # todo: below doesn't work with ruby 1.9.1; will redress
+  # below doesn't work with ruby 1.9.1; will redress
+  
+  # 
+  
   # ValidEmailAddress = begin
   #	qtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]'
   #	dtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]'
