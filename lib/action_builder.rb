@@ -7,6 +7,16 @@ module ActionBuilder
 
 
     def has_actions_for(model, *args)
+      @model = model
+      class << self
+        define_method :model do 
+          @model
+        end
+      end
+      define_method :model do 
+        self.class.model
+      end
+
       options = args.extract_options!
       actions = get_actions(options)
       collection_name = model.name.tableize

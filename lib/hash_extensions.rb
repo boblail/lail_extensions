@@ -1,10 +1,14 @@
 module HashExtensions
 
 
-  def pick(*keys)
+  def pick(*picks)
     result = {}
-    keys.each {|key| result[key] = self[key] if self.key?(key)}
+    picks.each {|key| result[key] = self[key] if self.key?(key)}
     result
+  end
+  
+  def pick!(*picks)
+    keys.each {|key| self.delete(key) unless picks.member?(key) }
   end
 
 
