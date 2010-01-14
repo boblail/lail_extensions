@@ -18,7 +18,16 @@ module FormattingHelper
     output
   end
 
-  def format_errors( object )
+  def format_errors(object)    
+    if object and
+       object.respond_to?("errors") and
+       !(messages = object.errors.full_messages_recursive).empty?
+      "<ul>" + messages.collect {|msg| "<li>#{msg}</li>"} + "</ul>"
+    else
+      ""
+    end
+
+=begin
     if object and object.respond_to? "errors"
       temp = "<ul>"
       object.errors.each do |k,v|
@@ -34,6 +43,7 @@ module FormattingHelper
     else
       ""
     end
+=end
   end
   
 end
