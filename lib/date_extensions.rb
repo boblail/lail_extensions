@@ -3,11 +3,11 @@ module DateExtensions
 
  
   def months_since(earlier_date)
-    ((self.year - earlier_date.year) * 12) + (self.month - earlier_date.month)
+    ((self.year - earlier_date.year) * 12) + (self.month - earlier_date.month).to_int
   end
   
   def weeks_since(earlier_date)
-    (self.at_beginning_of_week - earlier_date.at_beginning_of_week) / 7
+    ((self.at_beginning_of_week - earlier_date.to_date.at_beginning_of_week) / 7).to_int
   end
   
   def years_since(earlier_date)
