@@ -13,6 +13,7 @@ module Slug
   end
 end
 
+
 module ToSlug
   
   # Generate a slug for the string +value+.
