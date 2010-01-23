@@ -1,4 +1,3 @@
-<<<<<<< HEAD:lib/date_extensions.rb
 module DateExtensions
   
   
