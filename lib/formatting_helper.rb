@@ -21,8 +21,10 @@ module FormattingHelper
   def format_errors(object)    
     if object and
        object.respond_to?("errors") and
-       !(messages = object.errors.full_messages_recursive).empty?
-      "<ul>" + messages.collect {|msg| "<li>#{msg}</li>"} + "</ul>"
+       #!(messages = object.errors.full_messages).empty?
+      #"<ul>" + messages.collect {|msg| "<li>#{msg}</li>"}.join + "</ul>"
+       !(messages = object.errors.all_messages).empty?
+      "<ul>" + messages.collect {|msg| "<li>#{msg.is_a?(Array) ? msg.flatten(" - ") : msg}</li>"}.join + "</ul>"
     else
       ""
     end

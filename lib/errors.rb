@@ -26,7 +26,7 @@ class ActiveRecord::Errors
     print_array = lambda do |array|
       depth += 1
       for i in array
-        if i.is_a?(String) or i.is_a?(ActiveRecord::Error)
+        if i.is_a?(String) # or i.is_a?(ActiveRecord::Error)
           lines << "#{"  " * depth}#{i}"
         elsif i.is_a?(Array)
           print_array.call(i)
