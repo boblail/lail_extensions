@@ -19,7 +19,7 @@ module ToSlug
     # character    
     # value = self.mb_chars.normalize(:kd).gsub(/[^\x00-\x7F]/n, '').to_s
     # works for Ruby 1.9.1
-    value.encoding!("ascii")
+    value = self.encode("ascii")
     
     # Remove single quotes from input
     value.gsub!(/[']+/, '')
