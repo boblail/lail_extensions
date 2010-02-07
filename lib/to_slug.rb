@@ -1,3 +1,19 @@
+module Slug
+  ValidSlug = begin
+  	# must start with a letter
+    # must be at least one character long
+	  # may include only lowercase latin letters, numbers, dashes, and underscores
+	  /\A[a-z][a-z0-9_-]*\z/
+  end
+  ValidSegment = begin
+    # must start with a letter
+    # must be at least one character long
+    # may include only lowercase latin letters, numbers, dashes, and underscores
+    /[a-z][a-z0-9_-]*/
+  end
+end
+
+
 module ToSlug
   
   # Generate a slug for the string +value+.
@@ -19,7 +35,7 @@ module ToSlug
     # character    
     # value = self.mb_chars.normalize(:kd).gsub(/[^\x00-\x7F]/n, '').to_s
     # works for Ruby 1.9.1
-    value = self.encode("ascii")
+    value = (RUBY_VERSION >= "1.9") ? self.encode("ascii") : self.mb_chars.normalize(:kd).gsub(/[^\x00-\x7F]/n, '').to_s
     
     # Remove single quotes from input
     value.gsub!(/[']+/, '')
