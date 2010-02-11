@@ -6,7 +6,9 @@ require 'enumerable';
 require 'errors';
 require 'flash_message';
 require 'formatting_helper';
-Hash.send :include, HashExtensions
+require 'to_slug.rb';
+
 ActionView::Base.send :include, FlashMessage
 ActionView::Base.send :include, AssetsHelper
 ActionController::Base.send :include, ActionBuilder
+String.send(:include, ToSlug)
