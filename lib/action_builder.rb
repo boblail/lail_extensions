@@ -1,4 +1,4 @@
-require 'rails3_backport/mime_responds';
+# require 'rails3_backport/mime_responds';
 
 module ActionBuilder
 
