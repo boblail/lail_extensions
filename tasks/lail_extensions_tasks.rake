@@ -37,7 +37,8 @@ namespace :db do
     
     desc "Saves all data in the database to /test/fixtures"
     task :save => :environment do
-      RAILS_ENV="production"
+      #RAILS_ENV="production"
+      #Rake::Task['environment'].invoke
       
       # create fixtures backup path
       fixtures_dir = "#{RAILS_ROOT}/test/fixtures"
@@ -49,26 +50,52 @@ namespace :db do
       
       # backup tables
       ignored_tables = ['schema_info', 'schema_migrations', 'sessions', 'public_exceptions']
-      tables = ActiveRecord::Base.connection.tables.sort - ignored_tables 
+      tables = ActiveRecord::Base.connection.tables
+      tables = tables.sort.reject {|tbl| ignored_tables.member?(tbl)}
       for table in tables
         yml = fixtures_dir + "/#{table}.yml"
-        fixtures = to_fixtures(table)
-        unless fixtures.blank?
-          puts "Writing #{yml}"
-          File.open(yml, "w") {|file| file.puts fixtures}
+        klass = table.classify.constantize
+        unless klass.count.zero? 
+          puts "Writing #{klass.count} fixtures to #{yml}"
+          File.open(yml, "w") do |file|
+            for record in klass.all
+              file << "#{table}_#{record.id}:\r\n"
+              record.attributes.each do |key, value|
+                file << "  #{key}: #{to_yaml(value)}\r\n" unless value.nil?
+              end
+              file << "\r\n"
+            end
+          end
         end
       end
     end
     
+    def to_yaml(value)
+      case value
+      when Fixnum, BigDecimal, FalseClass, TrueClass, Time, Date
+        value.to_s
+      when String
+        "\"#{value}\""
+      when Hash
+        "{#{value.map {|k,v| "#{k}: #{to_yaml(v)}"}.join(", ")}}"
+      else
+        raise "unrecognized type #{value.class.name}"
+      end
+    end
+    
+=begin
     def to_fixtures(table)
 	    fixtures = ""
       klass = table.classify.constantize
+      puts klass.count
       for record in klass.all
         fixtures << "#{table}_#{record.object_id}:\r\n"
         YAML.dump record[:attributes], fixtures
         fixtures << "\r\n"
       end
+      fixtures
     end
+=end
 
   end
 
