@@ -34,23 +34,25 @@ namespace :db do
   
   
   namespace :fixtures do
-   
+    
     desc "Saves all data in the database to /test/fixtures"
-    task :save do
-      # RAILS_ENV="production"
-      Rake::Task["environment"].invoke
+    task :save => :environment do
+      RAILS_ENV="production"
+      
+      # create fixtures backup path
       fixtures_dir = "#{RAILS_ROOT}/test/fixtures"
       if Dir.exists?(fixtures_dir)
         old_fixtures_dir = "#{RAILS_ROOT}/test/fixtures #{Time.now.strftime("%Y.%m.%d.%H.%M.%S")}"
         FileUtils.mv fixtures_dir, old_fixtures_dir, :force => true
       end
       Dir.mkdir(fixtures_dir)
-      config = ActiveRecord::Base.configurations[RAILS_ENV]
-      ActiveRecord::Base.establish_connection
-      connection = ActiveRecord::Base.connection
-      for table in connection.tables
+      
+      # backup tables
+      ignored_tables = ['schema_info', 'schema_migrations', 'sessions', 'public_exceptions']
+      tables = ActiveRecord::Base.connection.tables.sort - ignored_tables 
+      for table in tables
         yml = fixtures_dir + "/#{table}.yml"
-        fixtures = to_fixtures(connection, table)
+        fixtures = to_fixtures(table)
         unless fixtures.blank?
           puts "Writing #{yml}"
           File.open(yml, "w") {|file| file.puts fixtures}
@@ -58,22 +60,14 @@ namespace :db do
       end
     end
     
-    def to_fixtures(connection, table)
+    def to_fixtures(table)
 	    fixtures = ""
-	    rows = connection.select_rows("SELECT * FROM #{table}")
-      unless rows.empty?
-	      columns = connection.columns(table).collect(&:name)
-	      for row in rows
-	        fixtures << "#{row.object_id}:\r\n"
-	        for i in (0...columns.length)
-	          value = row[i].to_s
-	          value = "\"#{value.to_s.gsub(/"/, "\\\"")}\"" if value =~ /[\n\r"]/
-    	      fixtures << "  #{columns[i]}: #{value}\r\n" unless value.blank?
-	        end
-	        fixtures << "\r\n"
-        end
+      klass = table.classify.constantize
+      for record in klass.all
+        fixtures << "#{table}_#{record.object_id}:\r\n"
+        YAML.dump record[:attributes], fixtures
+        fixtures << "\r\n"
       end
-      fixtures
     end
 
   end
