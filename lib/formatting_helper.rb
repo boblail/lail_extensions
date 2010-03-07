@@ -1,3 +1,5 @@
+#require 'errors'
+
 module FormattingHelper
 
   def format_params( hash=params, level=0 )
