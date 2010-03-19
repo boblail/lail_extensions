@@ -9,7 +9,7 @@ module AssetsHelper
       stylesheets = ((order & stylesheets) + (stylesheets - order))
     end
     stylesheets = stylesheets.map{|file| File.join("/#{css_path}", path, file)}
-    stylesheet_link_tag *(stylesheets + [{:cache => "#{path}/concat"}])
+    stylesheet_link_tag *(stylesheets + [{:cache => "#{path}/concat"}.merge(options.pick(:media))])
   end
 
 
@@ -21,7 +21,7 @@ module AssetsHelper
       javascripts = ((order & javascripts) + (javascripts - order))
     end
     javascripts = javascripts.map{|file| File.join("/#{js_path}", path, file)}
-    javascript_include_tag *(javascripts + [{:cache => "#{path}/concat"}])
+    javascript_include_tag *(javascripts + [{:cache => "#{path}/concat"}.merge(options.pick(:media))])
   end
 
 
