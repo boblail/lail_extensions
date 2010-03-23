@@ -1,15 +1,15 @@
 module Slug
   ValidSlug = begin
-  	# must start with a letter
+  	# must start with a letter or number
     # must be at least one character long
 	  # may include only lowercase latin letters, numbers, dashes, and underscores
-	  /\A[a-z][a-z0-9_-]*\z/
+	  /\A[a-z0-9][a-z0-9_\-]*\z/
   end
   ValidSegment = begin
-    # must start with a letter
+    # must start with a letter or number
     # must be at least one character long
     # may include only lowercase latin letters, numbers, dashes, and underscores
-    /[a-z][a-z0-9_-]*/
+    /[a-z0-9][a-z0-9_\-]*/
   end
 end
 

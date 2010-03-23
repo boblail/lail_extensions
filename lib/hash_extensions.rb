@@ -11,6 +11,27 @@ module HashExtensions
     keys.each {|key| self.delete(key) unless picks.member?(key) }
   end
 
+  def inspect!(depth=0)
+    s = ""
+    self.each do |k,v|
+      s << (" " * depth)
+      s << k
+      s << ": "
+      if v.is_a?(Hash)
+        s << "{\n"
+        s << v.inspect!(depth + 2)
+        s << (" " * depth)
+        s << "}"
+      elsif v.is_a?(Array)
+        s << v.inspect
+      else
+        s << v.to_s
+      end
+      s << "\n"
+    end
+    s
+  end
+
 
 end
 
