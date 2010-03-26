@@ -11,7 +11,7 @@ class TabBuilder
       tabs << "<li class=\"current\"><div class=\"left\"></div><div class=\"middle\">#{text}</div><div class=\"right\"></div></li>"
     else
       url = mode ? "#{@url}?#{@verb}=#{URI.escape mode}" : @url
-      tabs << "<li><a href=\"#{url}\">#{text}</a></li>"
+      tabs << "<li><a href=\"#{url}#tabs\">#{text}</a></li>"
     end
   end  
 end
@@ -26,7 +26,7 @@ class ActionView::Base
     current_mode = params[verb] || options[:default]
     separator = options[:separator] || "" #"&nbsp;&nbsp;|&nbsp;&nbsp;"
       
-    concat "<ul class=\"tabs\">"
+    concat "<ul id=\"tabs\" class=\"tabs\">"
       t = TabBuilder.new(self, url, verb, current_mode, options)
       yield t
       concat t.tabs.join(separator)
