@@ -13,12 +13,21 @@ class TabBuilder
       url = mode ? "#{@url}?#{@verb}=#{URI.escape mode}" : @url
       tabs << "<li><a href=\"#{url}#tabs\">#{text}</a></li>"
     end
-  end  
+  end
 end
   
 class ActionView::Base
   
-  def tabs_for(verb, options={})
+  def tab_control_for(verb, options={}, &block)
+    concat "<div class=\"tab-control\">"
+    tabs_for(verb, options, &block)
+    concat "<div class=\"tab-body\">"
+    concat render :partial => instance_variable_get("@#{verb}")
+    concat "</div>"
+    concat "</div>"
+  end
+  
+  def tabs_for(verb, options={}, &block)
     unless url=options[:url]
       url = @controller.request.request_uri
       url = url.split("?").first if url.index("?")
