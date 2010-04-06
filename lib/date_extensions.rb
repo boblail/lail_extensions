@@ -40,17 +40,17 @@ module DateExtensions
 
   module ClassMethods
   
-    def self.months_between(date1, date2)
+    def months_between(date1, date2)
       (date1 > date2) ? (later_date, earlier_date = date1, date2) : (later_date, earlier_date = date2, date1)
       later_date.months_since(earlier_date)
     end
     
-    def self.weeks_between(date1, date2)
+    def weeks_between(date1, date2)
       (date1 > date2) ? (later_date, earlier_date = date1, date2) : (later_date, earlier_date = date2, date1)
       later_date.weeks_since(earlier_date)
     end
     
-    def self.years_between(date1, date2)
+    def years_between(date1, date2)
       (date1 > date2) ? (later_date, earlier_date = date1, date2) : (later_date, earlier_date = date2, date1)
       later_date.years_since(earlier_date)
     end
@@ -59,8 +59,8 @@ module DateExtensions
   
   
   
-  def self.included(other_module)
-    other_module.extend ClassMethods
+  def DateExtensions.included(other_module)
+    other_module.send :extend, ClassMethods    
   end
   
 end
