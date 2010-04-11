@@ -7,11 +7,12 @@ class TabBuilder
   end
   
   def make(text, mode=nil)
+    tab = "<div class=\"tab-left\"></div><div class=\"tab-middle\">#{text}</div><div class=\"tab-right\"></div>"
     if (mode==@current_mode)
-      tabs << "<li class=\"current\"><div class=\"left\"></div><div class=\"middle\">#{text}</div><div class=\"right\"></div></li>"
+      tabs << "<li class=\"tab current\">#{tab}</li>"
     else
       url = mode ? "#{@url}?#{@verb}=#{URI.escape mode}" : @url
-      tabs << "<li><a href=\"#{url}#tabs\">#{text}</a></li>"
+      tabs << "<li class=\"tab\"><a href=\"#{url}#tabs\">#{tab}</a></li>"
     end
   end
 end
