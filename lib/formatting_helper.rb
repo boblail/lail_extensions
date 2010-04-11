@@ -25,7 +25,7 @@ module FormattingHelper
        object.respond_to?("errors") and
        #!(messages = object.errors.full_messages).empty?
       #"<ul>" + messages.collect {|msg| "<li>#{msg}</li>"}.join + "</ul>"
-       !(messages = object.errors.all_messages).empty?
+       !(messages = object.errors.full_messages).empty?
       "<ul>" + messages.collect {|msg| "<li>#{msg.is_a?(Array) ? msg.flatten(" - ") : msg}</li>"}.join + "</ul>"
     else
       ""

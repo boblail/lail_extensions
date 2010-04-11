@@ -24,7 +24,11 @@ module ActionView::Helpers::FormHelper
       check_box = check_box_tag(name, value, evaluate_method(item, is_selected_method), :id => id) <<
                   label_tag(id, evaluate_method(item, text_method))
       if block_given?
-        html << yield(check_box)
+        if block.arity == 2
+          html << yield(check_box, item)
+        else
+          html << yield(check_box)
+        end
       else
         html << check_box
       end
