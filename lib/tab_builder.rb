@@ -2,18 +2,22 @@ class TabBuilder
   attr_reader :tabs
   
   def initialize(template, url, verb, current_mode, options)
-    @template, @url, @verb, @current_mode = template, url, verb, current_mode
+    @template, @url, @verb, @current_mode, @options = template, url, verb, current_mode, options
     @tabs = []
   end
   
   def make(text, mode=nil)
-    tab = "<div class=\"tab-left\"></div><div class=\"tab-middle\">#{text}</div><div class=\"tab-right\"></div>"
+    tab = "<span class=\"tab-left\"></span><span class=\"tab-middle\">#{text}</span><span class=\"tab-right\"></span>"
+
+    css = ["tab"]
+    css << @options[:tab_class] if @options[:tab_class]
     if (mode==@current_mode)
-      tabs << "<li class=\"tab current\">#{tab}</li>"
+      css << "current"
     else
       url = mode ? "#{@url}?#{@verb}=#{URI.escape mode}" : @url
-      tabs << "<li class=\"tab\"><a href=\"#{url}#tabs\">#{tab}</a></li>"
+      tab = "<a href=\"#{url}#tabs\">#{tab}</a>"
     end
+    tabs << "<li class=\"#{css.join(" ")}\">#{tab}</li>"
   end
 end
   

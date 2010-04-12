@@ -1,0 +1,30 @@
+/* MODAL POPUPS *****************************************************************************************/
+
+#modal_net
+{
+	background-image:url('../../images/modal/overlay.png');
+	background-repeat:repeat;
+	height:100%;
+	width:100%;
+	position:absolute;
+	left:0;
+	top:0;
+	z-index:99;
+}
+
+.modal-frame
+{
+	position:fixed;
+	z-index:100;
+	/*top:50%;
+	left:50%;*/
+}
+
+/*
+.modal-frame .t
+{
+	position:absolute;
+	left:15px;
+	right:23px;
+}
+*/
