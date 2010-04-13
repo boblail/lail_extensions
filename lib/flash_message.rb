@@ -3,7 +3,7 @@ module FlashMessage
   def flash_message(key, options={})
     message = flash[key] || ""
     options.reverse_merge!(:class => "flash #{key}", :id => "flash_#{key}")
-    options.merge!(:style => "display:none;") if message.empty?
+    options.merge!(:style => "display:none;") if message.nil? or message.empty?
     content_tag :div, message, options
   end
   
