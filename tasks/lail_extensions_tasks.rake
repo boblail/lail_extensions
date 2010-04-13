@@ -42,7 +42,7 @@ namespace :db do
       
       # create fixtures backup path
       fixtures_dir = "#{RAILS_ROOT}/test/fixtures"
-      if Dir.exists?(fixtures_dir)
+      if File.exists?(fixtures_dir) and File.directory?(fixtures_dir)
         old_fixtures_dir = "#{RAILS_ROOT}/test/fixtures #{Time.now.strftime("%Y.%m.%d.%H.%M.%S")}"
         FileUtils.mv fixtures_dir, old_fixtures_dir, :force => true
       end
