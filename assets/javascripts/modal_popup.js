@@ -24,14 +24,15 @@ var ModalPopup = (function() {
     var de = document.documentElement;
     var w = window.innerWidth || self.innerWidth || (de&&de.clientWidth) || document.body.clientWidth;
     var h = window.innerHeight || self.innerHeight || (de&&de.clientHeight) || document.body.clientHeight;
-        
+
     var width = div.getWidth();
     var margin_left = ((w - width) / 2) + 'px';
     var height = div.getHeight();
     var margin_top = ((h - height) / 2) + 'px';
-    /*alert(width+','+height);*/
-    /*alert(margin_left+','+margin_top);*/
+    
     //debugger;
+    //alert(w+', '+h);
+    //alert(width+','+height);
     div.setStyle({marginLeft:margin_left, marginTop:margin_top});
   };
   
@@ -166,6 +167,7 @@ var ModalPopup = (function() {
     show: function(options) {
       options = options || {};
       var params = options.parameters || {};
+      var method = options.method || 'get';
       params.for_popup = true;
       // alert(options);
 
@@ -191,6 +193,7 @@ var ModalPopup = (function() {
         new Ajax.Request(options.url, {
           evalScripts:true,
           evalJS:true,
+          method:method,
           parameters:params,
           /*
           onLoading:function() {
@@ -198,6 +201,7 @@ var ModalPopup = (function() {
           },
           */
           onComplete:function(response) {
+            //debugger;
             //_hide_loading();
             //alert(response.status);
             /*
