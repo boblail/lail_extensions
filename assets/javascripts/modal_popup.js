@@ -33,6 +33,7 @@ var ModalPopup = (function() {
     //debugger;
     //alert(w+', '+h);
     //alert(width+','+height);
+    //alert(margin_left+','+margin_top);
     div.setStyle({marginLeft:margin_left, marginTop:margin_top});
   };
   
@@ -247,6 +248,7 @@ var ModalPopup = (function() {
         // Prototype: if (!options.evalScripts) responseText = responseText.stripScripts();
         popup_body.update(content);
         _prepare_contents(popup);
+        popup.show();
         observer.fire('loaded');
       }
     },
