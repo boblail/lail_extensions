@@ -151,10 +151,10 @@ var ModalPopup = (function() {
       var a = event.findElement('a');
       if(a) {
         if(a.hasClassName('popup')) {
-          event.stop();
+          Event.stop(event);
           ModalPopup.show({url:a.href});
         } else if(a.hasClassName('replace')) {
-          event.stop();
+          Event.stop(event);
           ModalPopup.replace({url:a.href});
         }
       }
