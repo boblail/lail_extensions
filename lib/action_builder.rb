@@ -17,7 +17,7 @@ module ActionBuilder
       actions = get_actions(options)
       collection_name = model.name.tableize
       instance_name = collection_name.singularize
-      define_method(:model)           {model}      
+      define_method(:model)           {model}
 
 #
 #     This method took advantage of scopes --- which seems to be the superior
