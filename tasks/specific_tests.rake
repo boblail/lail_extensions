@@ -27,13 +27,17 @@ rule "" do |t|
     elsif File.exist?("test/functional/#{file_name}_controller_test.rb")
       run_file_name = "functional/#{file_name}_controller_test.rb" 
     elsif File.exist?("test/functional/#{file_name}_test.rb")
-      run_file_name = "functional/#{file_name}_test.rb" 
-    end
-    
-    if test_name
-      sh "ruby -Ilib:test test/#{run_file_name} -n /#{test_name}/" 
+      run_file_name = "functional/#{file_name}_test.rb"
     else
-      sh "ruby -Ilib:test test/#{run_file_name}"
+      puts "no test was found with a file name containing #{file_name} #{" and a test name containing #{test_name}" if test_name}"
+    end
+
+    if run_file_name
+      if test_name
+        sh "ruby -Ilib:test test/#{run_file_name} -n /#{test_name}/" 
+      else
+        sh "ruby -Ilib:test test/#{run_file_name}"
+      end
     end
   end
 end
