@@ -61,7 +61,7 @@ namespace :db do
             for record in klass.all
               file << "#{table}_#{record.id}:\r\n"
               record.attributes.each do |key, value|
-                file << "  #{key}: #{to_yaml(value)}\r\n" unless value.nil?
+                file << "  #{key}: #{to_fixtures(value)}\r\n" unless value.nil?
               end
               file << "\r\n"
             end
@@ -70,32 +70,18 @@ namespace :db do
       end
     end
     
-    def to_yaml(value)
+    def to_fixtures(value)
       case value
       when Fixnum, BigDecimal, FalseClass, TrueClass, Time, Date
         value.to_s
       when String
         "\"#{value}\""
       when Hash
-        "{#{value.map {|k,v| "#{k}: #{to_yaml(v)}"}.join(", ")}}"
+        "{#{value.map {|k,v| "#{k}: #{to_fixtures(v)}"}.join(", ")}}"
       else
         raise "unrecognized type #{value.class.name}"
       end
     end
-    
-=begin
-    def to_fixtures(table)
-      fixtures = ""
-      klass = table.classify.constantize
-      puts klass.count
-      for record in klass.all
-        fixtures << "#{table}_#{record.object_id}:\r\n"
-        YAML.dump record[:attributes], fixtures
-        fixtures << "\r\n"
-      end
-      fixtures
-    end
-=end
 
   end
 
