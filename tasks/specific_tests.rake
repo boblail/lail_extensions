@@ -17,7 +17,7 @@
 # => Runs the tests matching /create/ in the BlogControllerTest functional test	
 rule "" do |t|
   # test:file:method
-  if /test:(.*)(:([^.]+))?$/.match(t.name)
+  if /^test:(.*)(:([^.]+))?$/.match(t.name)
     arguments = t.name.split(":")[1..-1] # skip test:
     file_pattern = arguments.shift
     test_pattern = arguments.shift
