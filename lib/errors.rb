@@ -1,4 +1,4 @@
-class ActiveRecord::Errors
+module ErrorsExtensions
 
   def print
     self.map {|h,k| "#{h} #{k}"}
@@ -6,7 +6,7 @@ class ActiveRecord::Errors
   
   def all_messages
     all_messages = []
-    @errors.each do |attribute, messages|
+    self.each do |attribute, messages|
 =begin
       if (attribute == "base")
         all_messages.concat(messages) unless messages.empty?
@@ -73,3 +73,7 @@ class ActiveRecord::Errors
 =end
 
 end
+
+
+ActiveRecord::Errors.send(:include, ErrorsExtensions)
+ActiveModel::Errors.send(:include, ErrorsExtensions)
