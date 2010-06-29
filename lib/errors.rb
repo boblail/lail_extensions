@@ -7,22 +7,21 @@ module ErrorsExtensions
   def all_messages
     all_messages = []
     self.each do |attribute, messages|
-=begin
-      if (attribute == "base")
-        all_messages.concat(messages) unless messages.empty?
-      elsif @base.respond_to?(attribute) and (value = @base.send(attribute)).respond_to?("errors") and !(messages = value.errors.all_messages).empty?
-        all_messages << [attribute, messages]
-      else
-        all_messages << [attribute, messages] unless messages.empty?
-      end
-=end      
-      messages = [messages] unless messages.is_a?(Array)
-      if attribute == "base"
-        all_messages.concat(messages)
-      elsif @base.respond_to?(attribute) and (value = @base.send(attribute)).respond_to?("errors") and !(value_messages = value.errors.all_messages).empty?
-        all_messages.concat(value_messages.collect{|m| "#{attribute.to_s.humanize}: #{m}"})
-      else
-        all_messages.concat(messages.collect{|m| "#{attribute.to_s.humanize} #{m}"})
+      begin
+        messages = [messages] unless messages.is_a?(Array)
+        if attribute == "base"
+          all_messages.concat(messages)
+        elsif @base.respond_to?(attribute) and
+              (value = @base.send(attribute)).respond_to?(:errors) and
+              value.errors.respond_to?(:all_messages)
+              (value_messages = value.errors.all_messages).any?
+          all_messages.concat(value_messages.collect{|m| "#{attribute.to_s.humanize}: #{m}"})
+        else
+          all_messages.concat(messages.collect{|m| "#{attribute.to_s.humanize} #{m}"})
+        end
+      rescue
+        # First, don't explode when we're trying to collect error messages
+        debugger
       end
     end
     all_messages
