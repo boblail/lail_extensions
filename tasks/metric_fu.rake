@@ -3,7 +3,7 @@ if (RAILS_ENV=="development")
   MetricFu::Configuration.run do |config|
 #   config.metrics  = [:churn, :saikuro, :stats, :flog, :flay]
 #   config.graphs   = [:flog, :flay, :stats]
-    @base_directory = RAILS_ROOT.gsub(/\/([^\/]*)$/, '/metric_fu/\1')
+    @base_directory = Rails.root.to_s.gsub(/\/([^\/]*)$/, '/metric_fu/\1')
     config.base_directory = @base_directory
     config.scratch_directory = File.join(@base_directory, 'scratch')
     config.output_directory = File.join(@base_directory, 'output')
@@ -16,7 +16,7 @@ if (RAILS_ENV=="development")
                                      "--no-color",
                                      "--profile",
                                      "--rails",
-                                     "--exclude /\.rvm/",
+                                     "--exclude /\.rvm/,/gems/,/\.bundle/",
                                      "-Itest"],
                       :external => nil
                    }

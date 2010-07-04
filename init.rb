@@ -6,7 +6,7 @@ require 'assets_helper';
 require 'date_extensions';
 require 'duration';
 require 'enumerable';
-require 'errors';
+require 'errors_extensions';
 require 'flash_message';
 require 'formatting_helper';
 require 'hash_extensions';
