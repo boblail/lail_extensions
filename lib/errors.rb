@@ -74,5 +74,5 @@ module ErrorsExtensions
 end
 
 
-ActiveRecord::Errors.send(:include, ErrorsExtensions)
-ActiveModel::Errors.send(:include, ErrorsExtensions)
+ActiveRecord::Errors.send(:include, ErrorsExtensions) if defined?(ActiveRecord::Errors)
+ActiveModel::Errors.send(:include, ErrorsExtensions) if defined?(ActiveModel::Errors)
