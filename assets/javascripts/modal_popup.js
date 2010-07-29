@@ -10,7 +10,7 @@ var ModalPopup = (function() {
   var on_accept = null;
   var on_cancel = null;
   var remove_popup_on_close = false;
-  var close_popup_on_esc = true;
+  // var close_popup_on_esc = true;
   var disabled = false;
   var body;
   var observer = new Observer();
@@ -18,21 +18,21 @@ var ModalPopup = (function() {
   document.observe('dom:loaded',function() {
     body = $(document.body);
     body.observe('keyup', function(event) {
-      if(close_popup_on_esc && !disabled && (event.keyCode == Event.KEY_ESC)) {
+      // if(close_popup_on_esc && !disabled && (event.keyCode == Event.KEY_ESC)) {
+      if(!disabled && (event.keyCode == Event.KEY_ESC)) {
         ModalPopup.cancel();
         Event.stop(event);
       }
     });
   });
-  // 
-  // var _on_keyup = function(event) {
-  //   if(event.keyCode == Event.KEY_ESC) {
-  //     ModalPopup.cancel();
-  //     Event.stop(event);
-  //   }
-  // };
   
-  var _on_resize = function(div) {
+  function debug(s) {
+    if(window.console && window.console.log) {
+      window.console.log('[mp] ' + s);
+    }
+  }
+  
+  function _on_resize(div) {
     var de = document.documentElement;
     var w = window.innerWidth || self.innerWidth || (de&&de.clientWidth) || document.body.clientWidth;
     var h = window.innerHeight || self.innerHeight || (de&&de.clientHeight) || document.body.clientHeight;
@@ -42,14 +42,13 @@ var ModalPopup = (function() {
     var height = div.getHeight();
     var margin_top = ((h - height) / 2) + 'px';
     
-    //debugger;
-    //alert(w+', '+h);
-    //alert(width+','+height);
-    //alert(margin_left+','+margin_top);
+    //debug(w+', '+h);
+    //debug(width+','+height);
+    //debug(margin_left+','+margin_top);
     div.setStyle({marginLeft:margin_left, marginTop:margin_top});
   };
   
-  var _create_frame = function() {
+  function _create_frame() {
     var popup_frame = $(document.createElement('div'));
     popup_frame.className = 'modal-frame';
     popup_frame.id = 'modal_frame';
@@ -71,7 +70,7 @@ var ModalPopup = (function() {
     return popup_frame;
   };
   
-  var _create_body = function(popup_frame) {
+  function _create_body(popup_frame) {
     var popup_body = $(document.createElement('div'));
     popup_body.className = 'modal-body';
     popup_body.id = 'modal_body';
@@ -79,7 +78,7 @@ var ModalPopup = (function() {
     return popup_body;
   };
   
-  var _prepare_contents = function(div) {
+  function _prepare_contents(div) {
     // todo: might want to add loaded trigger here too
 
     // resize
@@ -88,7 +87,7 @@ var ModalPopup = (function() {
     _on_resize(div);
   };
   
-  var _get_or_create_popup = function() {
+  function _get_or_create_popup() {
     if(!open_popup) {
       var popup_frame = _create_frame();
       var popup_body = _create_body(popup_frame);
@@ -97,7 +96,7 @@ var ModalPopup = (function() {
     return open_popup;
   };
   
-  var _show_loading = function() {
+  function _show_loading() {
     if(!open_net) {
       // create the disabling net
       open_net = $(document.createElement('div'));
@@ -109,22 +108,22 @@ var ModalPopup = (function() {
     }
   };
   
-  var _hide_loading = function() {
+  function _hide_loading() {
     if(open_net) {
       open_net.remove();
       open_net = null;
     }
   };
 
-  var _show_popup = function(div, options) {
-  
+  function _show_popup(div, options) {
+    
     // close any existing popup
     ModalPopup.cancel();
 
     // store callbacks
     on_accept = options.onAccept;
     on_cancel = options.onCancel;
-    close_popup_on_esc = options.closeOnEscape;
+    // close_popup_on_esc = options.closeOnEscape;
     disabled = false;
 
     // create the disabling net
@@ -146,19 +145,15 @@ var ModalPopup = (function() {
         body.appendChild(open_popup);
         observer.fire('loaded');
       }
-      else
+      else {
         open_popup.show();
+      }
         
       //
       observer.fire('show');
       
       _prepare_contents(div);
     }
-
-    // // just once, please
-    // body.stopObserving('keyup',_on_keyup);
-    // if(options.closeOnEscape != false)
-    //   body.observe('keyup',_on_keyup);
   };
   
   function extender() {
@@ -184,54 +179,29 @@ var ModalPopup = (function() {
       var params = options.parameters || {};
       var method = options.method || 'get';
       params.for_popup = true;
-      // alert(options);
-
-      /*
-      // process arguments
-      var message=null, options={};
-      if(arguments.length==1) {
-        message = arguments.length[0];
-        if(typeof(message)=="object") {
-          options=message, message=null;
-        } else if(typeof(message)!="string") {
-          message=null;
-        }
-      } else if(arguments.length>1) {
-        message=arguments[0], options=(arguments[1]||{});
-      }
-      */
       
       // TODO: include loading feature...
       // TODO: do it with events like rails.js (Rails3)?
       if(options.url) { // show url
-        //alert('...');
         new Ajax.Request(options.url, {
           evalScripts:true,
           evalJS:true,
           method:method,
           parameters:params,
-          /*
-          onLoading:function() {
-            _show_loading();
-          },
-          */
+          // onLoading:function() {
+          //   _show_loading();
+          // },
           onComplete:function(response) {
-            //debugger;
             //_hide_loading();
-            //alert(response.status);
-            /*
-            var s = '';
-            var headers = response.getAllHeaders();
-            for(var i=0; i<headers.length; i++) {
-              s  = s + headers[i].toString() + '\n';
-            }
-            */
-            //alert(response.getHeader('Content-Type'));
+            // var s = '';
+            // var headers = response.getAllHeaders();
+            // for(var i=0; i<headers.length; i++) {
+            //   s  = s + headers[i].toString() + '\n';
+            // }
             if(response.getHeader('Content-Type').include('text/html')) {
               ModalPopup.replace_with(response.responseText);
             } else {
-              //alert(response.getHeader('Content-Type'));
-              //alert(response.responseText);
+              debug('unrecognized header: "' + response.getHeader('Content-Type') + '"');
               //response.request.evalResponse();
               //eval(response.responseText);
             }
@@ -239,8 +209,7 @@ var ModalPopup = (function() {
           },
           onFailure:function(response) {
             alert('exception');
-          },
-          method:'get'});
+          }});
       }
       else if(options.id) { // show element by id
         _show_popup($(options.id), options);
@@ -256,13 +225,9 @@ var ModalPopup = (function() {
       }
     },
     replace_with: function(content) {
-      App.debug('1');
       var popup = _get_or_create_popup();
-      App.debug('2');
       var popup_body = popup.down('.modal-body');
-      App.debug('3');
       if(popup_body) {
-        App.debug('4');
         // Prototype: if (!options.evalScripts) responseText = responseText.stripScripts();
         popup_body.update(content);
         _prepare_contents(popup);
@@ -289,19 +254,25 @@ var ModalPopup = (function() {
         }
       }
     },
-    accept: function() {
+    accept: function(force) {
+      if(disabled && !force) return
+
       if(open_popup && on_accept)
         on_accept(open_popup);
       else
         ModalPopup.close();
     },
-    cancel: function() {
+    cancel: function(force) {
+      if(disabled && !force) return;
+
       if(open_popup && on_cancel)
         on_cancel(open_popup);
       else
         ModalPopup.close();
     },
-    close: function() {
+    close: function(force) {
+      if(disabled && !force) return;
+
       if(open_popup) {
         if(remove_popup_on_close)
           open_popup.remove();
@@ -313,8 +284,6 @@ var ModalPopup = (function() {
         open_net.remove();
         open_net = null;
       }
-      if(body)
-        body.stopObserving('keyup',_on_keyup);
     },
     disable: function() {
       disabled = true;
