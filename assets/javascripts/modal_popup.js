@@ -10,15 +10,27 @@ var ModalPopup = (function() {
   var on_accept = null;
   var on_cancel = null;
   var remove_popup_on_close = false;
+  var close_popup_on_esc = true;
+  var disabled = false;
   var body;
   var observer = new Observer();
-
-  var _on_keyup = function(event) {
-    if(event.keyCode == Event.KEY_ESC) {
-      ModalPopup.cancel();
-      Event.stop(event);
-    }
-  };
+  
+  document.observe('dom:loaded',function() {
+    body = $(document.body);
+    body.observe('keyup', function(event) {
+      if(close_popup_on_esc && !disabled && (event.keyCode == Event.KEY_ESC)) {
+        ModalPopup.cancel();
+        Event.stop(event);
+      }
+    });
+  });
+  // 
+  // var _on_keyup = function(event) {
+  //   if(event.keyCode == Event.KEY_ESC) {
+  //     ModalPopup.cancel();
+  //     Event.stop(event);
+  //   }
+  // };
   
   var _on_resize = function(div) {
     var de = document.documentElement;
@@ -111,6 +123,8 @@ var ModalPopup = (function() {
     // store callbacks
     on_accept = options.onAccept;
     on_cancel = options.onCancel;
+    close_popup_on_esc = options.closeOnEscape;
+    disabled = false;
 
     // create the disabling net
     open_net = $(document.createElement('div'));
@@ -140,10 +154,10 @@ var ModalPopup = (function() {
       _prepare_contents(div);
     }
 
-    // just once, please
-    body.stopObserving('keyup',_on_keyup);
-    if(options.closeOnEscape != false)
-      body.observe('keyup',_on_keyup);
+    // // just once, please
+    // body.stopObserving('keyup',_on_keyup);
+    // if(options.closeOnEscape != false)
+    //   body.observe('keyup',_on_keyup);
   };
   
   function extender() {
@@ -241,9 +255,13 @@ var ModalPopup = (function() {
       }
     },
     replace_with: function(content) {
+      App.debug('1');
       var popup = _get_or_create_popup();
+      App.debug('2');
       var popup_body = popup.down('.modal-body');
+      App.debug('3');
       if(popup_body) {
+        App.debug('4');
         // Prototype: if (!options.evalScripts) responseText = responseText.stripScripts();
         popup_body.update(content);
         _prepare_contents(popup);
@@ -295,6 +313,20 @@ var ModalPopup = (function() {
       }
       if(body)
         body.stopObserving('keyup',_on_keyup);
+    },
+    disable: function() {
+      disabled = true;
+      if(open_popup) {
+        open_popup.select('form').each(Form.disable);
+        observer.fire('disabled');
+      }
+    },
+    enable: function() {
+      disabled = false;
+      if(open_popup) {
+        open_popup.select('form').each(Form.enable);
+        observer.fire('enabled');
+      }
     },
     
     // For compatibility
