@@ -1,17 +1,17 @@
 namespace :db do
 
-	  
-	desc "Drop, create, run all migrations on the database"
+    
+  desc "Drop, create, run all migrations on the database"
   task :recreate do
-		Rake::Task['environment'].invoke
-		Rake::Task['db:drop'].invoke
-		Rake::Task['db:create'].invoke
-		Rake::Task['db:migrate'].invoke
+    Rake::Task['environment'].invoke
+    Rake::Task['db:drop'].invoke
+    Rake::Task['db:create'].invoke
+    Rake::Task['db:migrate'].invoke
   end
 
 
   # thanks to: http://www.manu-j.com/blog/truncate-all-tables-in-a-ruby-on-rails-application/221/
-	desc "Clear all data from the database"
+  desc "Clear all data from the database"
   task :purge => :load_config do
     begin
       config = ActiveRecord::Base.configurations[RAILS_ENV]
@@ -61,7 +61,7 @@ namespace :db do
             for record in klass.all
               file << "#{table}_#{record.id}:\r\n"
               record.attributes.each do |key, value|
-                file << "  #{key}: #{to_yaml(value)}\r\n" unless value.nil?
+                file << "  #{key}: #{to_fixtures(value)}\r\n" unless value.nil?
               end
               file << "\r\n"
             end
@@ -70,32 +70,18 @@ namespace :db do
       end
     end
     
-    def to_yaml(value)
+    def to_fixtures(value)
       case value
       when Fixnum, BigDecimal, FalseClass, TrueClass, Time, Date
         value.to_s
       when String
         "\"#{value}\""
       when Hash
-        "{#{value.map {|k,v| "#{k}: #{to_yaml(v)}"}.join(", ")}}"
+        "{#{value.map {|k,v| "#{k}: #{to_fixtures(v)}"}.join(", ")}}"
       else
         raise "unrecognized type #{value.class.name}"
       end
     end
-    
-=begin
-    def to_fixtures(table)
-	    fixtures = ""
-      klass = table.classify.constantize
-      puts klass.count
-      for record in klass.all
-        fixtures << "#{table}_#{record.object_id}:\r\n"
-        YAML.dump record[:attributes], fixtures
-        fixtures << "\r\n"
-      end
-      fixtures
-    end
-=end
 
   end
 

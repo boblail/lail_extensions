@@ -7,6 +7,18 @@ class ActionView::Helpers::FormBuilder
     @template.check_box_list(@object_name, method, collection, value_method, text_method, is_selected_method, &block)
   end
   
+  def method_missing(symbol, *args, &block)
+    if (match = symbol.to_s.match /^(.*)_with_label$/)
+      return <<-HTML
+      <label for="#{args.first}">
+        <span>#{h args.shift}</span>
+        #{send match[1].to_sym, *args, &block}
+      </label>
+      HTML
+    end
+    super
+  end
+  
   
 end
 
