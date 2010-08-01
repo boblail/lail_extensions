@@ -3,7 +3,7 @@ module AssetsHelper
   
   def include_stylesheet_dir( path, options={} )
     css_path = options[:path] || "stylesheets"
-    stylesheets = Dir.glob_in(File.join(RAILS_ROOT, "public", css_path, path), "*.css")
+    stylesheets = Dir.glob_in(File.join(Rails.root, "public", css_path, path), "*.css")
     if (order=options[:order])
       order = order.map{|s| "#{s}.css"}
       stylesheets = ((order & stylesheets) + (stylesheets - order))
@@ -15,7 +15,7 @@ module AssetsHelper
 
   def include_javascript_dir( path, options={} )
     js_path = options[:path] || "javascripts"
-    javascripts = Dir.glob_in(File.join(RAILS_ROOT, "public", js_path, path), "*.js")
+    javascripts = Dir.glob_in(File.join(Rails.root, "public", js_path, path), "*.js")
     if (order=options[:order])
       order = order.map{|s| "#{s}.js"}
       javascripts = ((order & javascripts) + (javascripts - order))
