@@ -13,7 +13,7 @@ module ErrorsExtensions
           all_messages.concat(messages)
         elsif @base.respond_to?(attribute) and
               (value = @base.send(attribute)).respond_to?(:errors) and
-              value.errors.respond_to?(:all_messages)
+              value.errors.respond_to?(:all_messages) and
               (value_messages = value.errors.all_messages).any?
           all_messages.concat(value_messages.collect{|m| "#{attribute.to_s.humanize}: #{m}"})
         else
