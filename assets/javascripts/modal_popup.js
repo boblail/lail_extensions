@@ -215,10 +215,7 @@ var ModalPopup = (function() {
         _show_popup($(options.id), options);
       }
       else if(options.message) { // show message
-        var popup_frame = _create_frame();
-        var popup_body = _create_body(popup_frame);
-        popup_body.insert(options.message);
-        _show_popup(popup_body, options);
+        ModalPopup.replace_with(options.message);
       }
       else { // show disabled screen
         _show_popup(null, options);
