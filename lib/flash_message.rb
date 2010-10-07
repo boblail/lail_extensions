@@ -1,10 +1,5 @@
-module FlashMessage
+require 'flash_message/helper'
+require 'flash_message/updater'
 
-  def flash_message(key, options={})
-    message = (flash[key] || "").to_s
-    options.reverse_merge!(:class => "flash #{key}", :id => "flash_#{key}")
-    options.merge!(:style => "display:none;") if message.empty?
-    content_tag :div, message, options
-  end
-  
-end
+ActionView::Base.send :include, FlashMessage::Helper
+ActionView::Helpers::JavaScriptGenerator.send :include, FlashMessage::Updater

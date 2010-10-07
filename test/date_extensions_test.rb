@@ -29,4 +29,32 @@ class DateExtensionsTest < ActiveSupport::TestCase
   
   
   
+  test "whole months between 1/1 and 12/31 should be 12" do
+    assert_equal 12, Date.new(2010, 12, 31).whole_months_since(Date.new(2010, 1, 1))
+  end
+  
+  
+  
+  test "should be able to parse '2010-04-15' as a date" do
+    assert_equal true, Date.can_parse?('2010-04-15')
+  end
+  
+  
+  
+  test "should not be able to parse a date with invalid numbers" do
+    assert_nothing_raised do
+      assert_equal false, Date.can_parse?('2010-0-15')
+    end
+  end
+  
+  
+  
+  test "should not be able to parse a bunch of letters as a date" do
+    assert_nothing_raised do
+      assert_equal false, Date.can_parse?('adfadsfs')
+    end
+  end
+  
+  
+  
 end

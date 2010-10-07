@@ -16,7 +16,7 @@ module DateExtensions
   
   def whole_months_since(earlier_date)
     earlier_date = 1.month.after(earlier_date.at_beginning_of_month) unless earlier_date.at_beginning_of_month?
-    later_date = self.at_end_of_month? ? 1.month.after(earlier_date.at_beginning_of_month) : self.at_beginning_of_month
+    later_date = self.at_end_of_month? ? 1.month.after(self.at_beginning_of_month) : self.at_beginning_of_month
     whole_months = later_date.months_since(earlier_date)
     (whole_months < 0) ? 0 : whole_months
     # whole_months = self.at_beginning_of_month.months_since(earlier_date)
@@ -66,12 +66,21 @@ module DateExtensions
   
   
   module ClassMethods
-  
+    
+    def can_parse?(string)
+      begin
+        parse(string)
+        true
+      rescue
+        false
+      end
+    end
+    
     def whole_months_between(date1, date2)
       later_date, earlier_date = sort_dates(date1, date2)
       later_date.whole_months_since(earlier_date)
     end
-  
+    
     def months_between(date1, date2)
       later_date, earlier_date = sort_dates(date1, date2)
       later_date.months_since(earlier_date)
@@ -93,7 +102,7 @@ module DateExtensions
       (date1 > date2) ? [date1, date2] : [date2, date1]
     end
     
-  end  
+  end
   
   
   
