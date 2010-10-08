@@ -4,6 +4,13 @@ module ErrorsExtensions
     self.map {|h,k| "#{h} #{k}"}
   end
   
+  def any_invalid?(*attributes)
+    attributes.each do |attribute|
+      return true if invalid?(attribute)
+    end
+    false
+  end
+  
   def all_messages
     all_messages = []
     self.each do |attribute, messages|
