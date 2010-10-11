@@ -13,7 +13,6 @@ require 'hash_extensions';
 require 'to_slug';
 require 'test_helpers';
 
-ActionView::Base.send :include, FlashMessage
 ActionView::Base.send :include, AssetsHelper
 ActionController::Base.send :include, ActionBuilder
 String.send(:include, ToSlug)

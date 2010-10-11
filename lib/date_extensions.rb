@@ -1,4 +1,7 @@
+require 'duration'
+
 module DateExtensions
+  
   
   
   def last_sunday
@@ -10,12 +13,15 @@ module DateExtensions
   end
   
   
+  
   def whole_months_since(earlier_date)
-    whole_months = self.at_beginning_of_month.months_since(1.month.after(earlier_date.at_beginning_of_month))
-    whole_months += 1 if (self.day == Date.new(self.year, self.month, -1).day)
-    whole_months += 1 if (earlier_date.day == 1)
-    whole_months
-    # ((self.year - earlier_date.year) * 12) + (self.month - earlier_date.month).to_int
+    earlier_date = 1.month.after(earlier_date.at_beginning_of_month) unless earlier_date.at_beginning_of_month?
+    later_date = self.at_end_of_month? ? 1.month.after(self.at_beginning_of_month) : self.at_beginning_of_month
+    whole_months = later_date.months_since(earlier_date)
+    (whole_months < 0) ? 0 : whole_months
+    # whole_months = self.at_beginning_of_month.months_since(earlier_date)
+    # whole_months += 1 if self.at_end_of_month?
+    # whole_months
   end
   
   def months_since(earlier_date)
@@ -31,8 +37,8 @@ module DateExtensions
     (self.year - earlier_date.year)
   end
   
-
-
+  
+  
   def months_until(later_date)
     later_date.months_since(self)
   end
@@ -45,15 +51,36 @@ module DateExtensions
     later_date.years_since(self)
   end
   
-
-
-  module ClassMethods
   
+  
+  def at_beginning_of_month?
+    self.day == 1
+  end
+  alias :beginning_of_month? :at_beginning_of_month?
+  
+  def at_end_of_month?
+    self.day == self.end_of_month.day
+  end
+  alias :end_of_month? :at_end_of_month?
+  
+  
+  
+  module ClassMethods
+    
+    def can_parse?(string)
+      begin
+        parse(string)
+        true
+      rescue
+        false
+      end
+    end
+    
     def whole_months_between(date1, date2)
       later_date, earlier_date = sort_dates(date1, date2)
       later_date.whole_months_since(earlier_date)
     end
-  
+    
     def months_between(date1, date2)
       later_date, earlier_date = sort_dates(date1, date2)
       later_date.months_since(earlier_date)
@@ -75,7 +102,7 @@ module DateExtensions
       (date1 > date2) ? [date1, date2] : [date2, date1]
     end
     
-  end  
+  end
   
   
   
