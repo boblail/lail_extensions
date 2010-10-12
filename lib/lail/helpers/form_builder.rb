@@ -20,12 +20,15 @@ class ActionView::Helpers::FormBuilder
   end
   
   
+  
 end
 
 
+
 module ActionView::Helpers::FormHelper
-
-
+  
+  
+  
   def check_box_list(object_name, method, collection, value_method=:id, text_method=:to_s, is_selected_method=nil, &block)
     method_singular = method.to_s.singularize
     html = ""
@@ -47,10 +50,10 @@ module ActionView::Helpers::FormHelper
     end
     html
   end
-
-
+  
+  
 private
-
+  
   
   def evaluate_method(object, method)
     case method
@@ -60,7 +63,7 @@ private
       method.call(object)
     end
   end
-
+  
   
 end
 

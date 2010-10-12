@@ -1,5 +1,5 @@
 require 'test_helper'
-require 'date_extensions'
+require 'lail/core_extensions/date'
 
 class DateExtensionsTest < ActiveSupport::TestCase
   

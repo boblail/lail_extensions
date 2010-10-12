@@ -1,0 +1,6 @@
+require 'lail/core_extensions/date'
+require 'lail/core_extensions/dir'
+require 'lail/core_extensions/duration'
+require 'lail/core_extensions/enumerable'
+require 'lail/core_extensions/hash'
+require 'lail/core_extensions/to_slug'
