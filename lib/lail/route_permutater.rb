@@ -1,6 +1,16 @@
 module Lail
   module RoutePermutater
-
+    
+    
+    
+    def each_possible_path_with(path_parameters, &block)
+      self.possible_paths_with(path_parameters).each do |path|
+        yield self, path
+      end
+    end
+    
+    
+    
     #
     # This function creates an array of all URLs which are permutations of the test values.
     #
@@ -10,8 +20,7 @@ module Lail
     #     plugged into that segment
     #
     def generate_permutations(path_parameters)
-  
-      #
+      
       # 1. generate an array of arrays: one array per segment
       #    with all the optional values for that segment
       #    a. some segments will be static and will contain an array of a single value
@@ -25,20 +34,21 @@ module Lail
           segments_permutations << [segment.to_s]
         end
       end
-  
-      #
+      
       # 2. create urls from all the permutations
-      #
       generate_url_permutations_recursive([""], *segments_permutations)
     end
-
-
+    alias :possible_paths_with :generate_permutations
+    
+    
+    
   private
     
-
+    
+    
     def generate_url_permutations_recursive(permutations, *segments)
       return permutations if (segments.length==0)
-
+      
       next_possibilities = segments.shift
       next_permutations = []
       for permutation in permutations
@@ -50,8 +60,9 @@ module Lail
       generate_url_permutations_recursive(next_permutations, *segments)
     end
     
-  
+    
+    
   end
 end
 
-ActionController::Routing::Route.send :include, RoutePermutater
+ActionController::Routing::Route.send :include, Lail::RoutePermutater
