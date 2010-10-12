@@ -17,9 +17,6 @@ module Lail
         mode ||= text.underscore.downcase
         id = "tab_#{mode.to_s.underscore}"
         
-        p "mode: #{mode} (#{mode.class})"
-        p "current_mode: #{@current_mode} (#{@current_mode.class})"
-        
         css = ["tab"]
         css << @options[:tab_class] if @options[:tab_class]
         if (mode==@current_mode)
