@@ -208,7 +208,7 @@ var ModalPopup = (function() {
             // <SCRIPT> blocks are evaluated _after_ this event is called.
           },
           onFailure:function(response) {
-            alert('exception');
+            // alert('exception');
           }});
       }
       else if(options.id) { // show element by id
