@@ -13,6 +13,7 @@ module Lail
       def assert_valid_and_save!(record)
         assert_valid(record)
         record.save!
+        record
       end
       
       
