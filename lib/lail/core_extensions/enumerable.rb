@@ -17,15 +17,16 @@ module Enumerable
   end
   
   
-  def in_groups(n)
-    length = self.length
-    group_size = (Float(length)/n).ceil
-    groups = []
-    (0...n).each do |i|
-      groups << (self[(i*group_size)...((i+1)*group_size)] || [])
-    end
-    groups
-  end
+  # This is in ActiveSupport::CoreExtensions::Array::Grouping now
+  # def in_groups(n)
+  #   length = self.length
+  #   group_size = (Float(length)/n).ceil
+  #   groups = []
+  #   (0...n).each do |i|
+  #     groups << (self[(i*group_size)...((i+1)*group_size)] || [])
+  #   end
+  #   groups
+  # end
   
   
   
