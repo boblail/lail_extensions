@@ -81,46 +81,46 @@ module Lail
           end  
           define_method(:find_model)      {|*args| __haf_scope.find(*args)}
           define_method(:find_models)     {|*args| __haf_scope.all(*args)}
-
-
+          
+          
           define_method "index" do
             collection = find_models(eval_params(options[:find]))
             instance_variable_set("@#{collection_name}", collection)
             instance_variable_set("@#{instance_name}", make_model(eval_params(options[:new]))) # if (resource_type == :simple_record)
             respond_with(collection)
           end if actions.member? :index
-      
+          
           define_method "show" do
             record = find_model(params[:id])
             instance_variable_set("@#{instance_name}", record)
             respond_with(record)
           end if actions.member? :show
-    
+          
           define_method "new" do
             record = make_model(eval_params(options[:new]))
             instance_variable_set("@#{instance_name}", record)
             respond_with(record)
           end if actions.member? :new
-
+          
           define_method "edit" do
             record = find_model(params[:id])
             instance_variable_set("@#{instance_name}", record)
           end if actions.member? :edit
-    
+          
           define_method "create" do
             record = make_model(params[instance_name])
             instance_variable_set("@#{instance_name}",record)
             record.save
             respond_with(record)
           end if actions.member? :create
-
+          
           define_method "update" do
             record = find_model(params[:id])
             instance_variable_set("@#{instance_name}",record)
             record.update_attributes(params[instance_name])
             respond_with(record)
           end if actions.member? :update
-
+          
           define_method "destroy" do
             record = find_model(params[:id])
             instance_variable_set("@#{instance_name}",record)
