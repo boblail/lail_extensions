@@ -157,7 +157,7 @@ var ModalPopup = (function() {
   };
   
   function extender() {
-    document.body.observe('click', function(event) {
+    $(document.body).observe('click', function(event) {
       var a = event.findElement('a');
       if(a) {
         if(a.hasClassName('popup')) {
