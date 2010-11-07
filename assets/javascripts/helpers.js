@@ -16,6 +16,6 @@ Lail.number_to_currency = function(number) {
 }
 
 Lail.number_to_percentage = function(number) {
-  var percent = number.toFixed(2);
+  var percent = (number * 100).toFixed(1);
   return percent + '%';
 }
