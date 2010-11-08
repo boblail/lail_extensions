@@ -18,6 +18,21 @@ module Lail
       
       
       
+      def except(*picks)
+        result = self.dup
+        result.except!(*picks)
+        result
+      end
+      
+      
+      
+      def except!(*picks)
+        picks = picks.flatten
+        keys.each {|key| self.delete(key) if picks.member?(key) }
+      end
+      
+      
+      
       def inspect!(depth=0)
         s = ""
         self.each do |k,v|
