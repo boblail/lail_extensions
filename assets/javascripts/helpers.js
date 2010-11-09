@@ -19,3 +19,21 @@ Lail.number_to_percentage = function(number) {
   var percent = (number * 100).toFixed(1);
   return percent + '%';
 }
+
+Lail.allow_only_numbers = function(options) {
+  options = options || {};
+  var exceptions = [46, 8]; // Allow backspace and delete
+  if(options.allowDecimalPoint) {
+    exceptions.push(0); // !todo: keyCode for '.'
+  }
+  return function(event) {
+    if(exceptions.include(event.keyCode)) {
+      return;
+    }
+    
+    // Prevent non-numbers
+    if((event.keyCode < 48) || (event.keyCode > 57)) {
+      event.preventDefault();
+    }
+  }
+}
