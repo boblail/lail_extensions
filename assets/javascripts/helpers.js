@@ -26,13 +26,15 @@ Lail.allow_only_numbers = function(options) {
   if(options.allowDecimalPoint) {
     exceptions.push(0); // !todo: keyCode for '.'
   }
+  function isException(event) {
+    return exceptions.include(event.keyCode);
+  }
+  function isNumber(event) {
+    var c = String.fromCharCode(event.keyCode);
+    return (!event.shiftKey && (("0123456789").indexOf(c) >= 0));
+  }
   return function(event) {
-    if(exceptions.include(event.keyCode)) {
-      return;
-    }
-    
-    // Prevent non-numbers
-    if((event.keyCode < 48) || (event.keyCode > 57)) {
+    if(!isException(event) && !isNumber(event)) {
       event.preventDefault();
     }
   }
