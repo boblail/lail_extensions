@@ -59,7 +59,7 @@ module SettingsMachine
     
     
     def save
-      @record.save
+      @record.save(false) # !nb: is this a good idea?
     end
     
     
