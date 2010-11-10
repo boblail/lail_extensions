@@ -58,6 +58,12 @@ module SettingsMachine
     
     
     
+    def save
+      @record.save
+    end
+    
+    
+    
     def i_or_nil(string)
       string.blank? ? nil : string.to_i
     end
