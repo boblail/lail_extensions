@@ -8,14 +8,13 @@ var Observer = (function(){
     this.func = func;
   };
   var constructor = function() {
-    //this.observations = [];
-    this.observations = new Array();
+    this.observations = [];
   };
   constructor.prototype = {
     observe: function(name, func) {
-      var exists = this.observations.findAll(function(i) {
+      var exists = this.observations.find(function(i) {
         return (i.name==name) && (i.func==func);
-      }).length > 0;
+      });
       if(!exists) {
         this.observations.push(new Observation(name, func));
       }
@@ -32,9 +31,11 @@ var Observer = (function(){
     },
     fire: function(name, data, scope) {
       if(!(data instanceof Array)) data = [data];
-      var _observations = this.observations.findAll(function(i) { return (i.name==name); });
-      _observations.each(function(i) { i.func.apply(scope, data); });
-      //funcs.forEach(function(i) { i.func.apply(scope, data); });
+      this.observations.each(function(i) {
+        if(i.name == name) {
+          i.func.apply(scope, data);
+        }
+      });
     }
   };
   return constructor;    
