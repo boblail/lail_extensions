@@ -26,34 +26,34 @@ if(document.observe) {
         }
       });
     });
-  
+    
     function debug(s) {
       if(window.console && window.console.log) {
         window.console.log('[mp] ' + s);
       }
     }
-  
+    
     function _on_resize(div) {
       var de = document.documentElement;
       var w = window.innerWidth || self.innerWidth || (de&&de.clientWidth) || document.body.clientWidth;
       var h = window.innerHeight || self.innerHeight || (de&&de.clientHeight) || document.body.clientHeight;
-
+      
       var width = div.getWidth();
       var margin_left = ((w - width) / 2) + 'px';
       var height = div.getHeight();
       var margin_top = ((h - height) / 2) + 'px';
-    
+      
       //debug(w+', '+h);
       //debug(width+','+height);
       //debug(margin_left+','+margin_top);
       div.setStyle({marginLeft:margin_left, marginTop:margin_top});
     };
-  
+    
     function _create_frame() {
       var popup_frame = $(document.createElement('div'));
       popup_frame.className = 'modal-frame';
       popup_frame.id = 'modal_frame';
-    
+      
       //var top = $(document.createElement('div')).addClassName('t');
       //var bot = $(document.createElement('div')).addClassName('b');
       popup_frame.appendChild($(document.createElement('div')).addClassName('tl'));
@@ -64,10 +64,10 @@ if(document.observe) {
       popup_frame.appendChild($(document.createElement('div')).addClassName('bf'));
       popup_frame.appendChild($(document.createElement('div')).addClassName('bl'));
       popup_frame.appendChild($(document.createElement('div')).addClassName('lf'));
-    
+      
       //popup_frame.appendChild(top);
       //popup_frame.appendChild(bot);
-    
+      
       return popup_frame;
     };
   
@@ -115,30 +115,30 @@ if(document.observe) {
         open_net = null;
       }
     };
-
-    function _show_popup(div, options) {
     
+    function _show_popup(div, options) {
+      
       // close any existing popup
       ModalPopup.cancel();
-
+      
       // store callbacks
       on_accept = options.onAccept;
       on_cancel = options.onCancel;
       // close_popup_on_esc = options.closeOnEscape;
       disabled = false;
-
+      
       // create the disabling net
       open_net = $(document.createElement('div'));
       open_net.id = 'modal_net';
-
+      
       // write the net to document
       if(!body) body = ($$('body')||[null])[0];
       body.appendChild(open_net);
-    
+      
       // show the popup
       if(div) {
         open_popup = div;
-      
+        
         // In IE7, nodes which have not been added to the document do not have
         // null parentNodes, but parentNodes of the type DOCUMENT_FRAGMENT_NODE (11)
         remove_popup_on_close = !open_popup.parentNode || (open_popup.parentNode != 1)
@@ -152,11 +152,11 @@ if(document.observe) {
         
         //
         observer.fire('show');
-      
+        
         _prepare_contents(div);
       }
     };
-  
+    
     function extender() {
       $(document.body).observe('click', function(event) {
         var a = event.findElement('a');
@@ -170,8 +170,8 @@ if(document.observe) {
           }
         }
       });
-    }  
-
+    }
+    
     return {
       observe: function(name, func) { observer.observe(name, func); },
       unobserve: function(name, func) { observer.unobserve(name, func); },
