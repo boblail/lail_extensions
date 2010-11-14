@@ -41,7 +41,7 @@ Lail.allow_only_numbers = function(options) {
 }
 
 // !nb: relies on prototype...
-Lail.setAlternatingStyles = function(selector) {
+Lail.set_alternating_styles = function(selector) {
   var alt = false;
   $$(selector).each(function(item) {
     if(item.visible() && (item.style.visibility != 'hidden')) {
