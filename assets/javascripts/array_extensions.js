@@ -32,7 +32,15 @@ Array.prototype.__each = function(fn) {
     fn(this[i]);
   }
 }
-if(!Array.prototype.find) Array.prototype.each = Array.prototype.__each;
+if(!Array.prototype.each) Array.prototype.each = Array.prototype.__each;
+
+
+
+Array.each = function(array, fn) {
+  for(var i=0, ii=array.length; i<ii; i++) {
+    fn(array[i]);
+  }
+}
 
 
 
