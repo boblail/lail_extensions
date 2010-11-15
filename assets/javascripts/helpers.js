@@ -39,3 +39,14 @@ Lail.allow_only_numbers = function(options) {
     }
   }
 }
+
+// !nb: relies on prototype...
+Lail.set_alternating_styles = function(selector) {
+  var alt = false;
+  $$(selector).each(function(item) {
+    if(item.visible() && (item.style.visibility != 'hidden')) {
+      alt ? item.addClassName('alt') : item.removeClassName('alt');
+      alt = !alt;
+    }
+  })
+};
