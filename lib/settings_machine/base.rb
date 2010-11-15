@@ -40,8 +40,8 @@ module SettingsMachine
       touch
     end
     
-    def merge!(hash={})
-      hash.pick(fields).each do |key, value|
+    def merge!(hash)
+      (hash ||= {}).pick(fields).each do |key, value|
         self[key] = value
       end
     end
