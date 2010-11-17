@@ -30,7 +30,7 @@ Lail.allow_only_numbers = function(options) {
     return exceptions.include(event.keyCode);
   }
   function isNumber(event) {
-    var c = String.fromCharCode(event.keyCode);
+    var c = String.fromCharCode(event.charCode);
     return (!event.shiftKey && (("0123456789").indexOf(c) >= 0));
   }
   return function(event) {
