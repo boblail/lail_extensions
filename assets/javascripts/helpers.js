@@ -24,17 +24,18 @@ Lail.allow_only_numbers = function(options) {
   options = options || {};
   var exceptions = [46, 8]; // Allow backspace and delete
   if(options.allowDecimalPoint) {
-    exceptions.push(0); // !todo: keyCode for '.'
+    exceptions.push(110); // keyCode for '.'
+    exceptions.push(190); // keyCode for '.' on the 10-key
   }
   function isException(event) {
     return exceptions.include(event.keyCode);
   }
   function isNumber(event) {
-    var c = String.fromCharCode(event.charCode);
-    return (!event.shiftKey && (("0123456789").indexOf(c) >= 0));
+    var w = event.which;
+    return (!event.shiftKey && ((w>=48 && w<=57) || (w>=96 && w<=105)));
   }
   return function(event) {
-    if(!isException(event) && !isNumber(event)) {
+    if(!(isException(event) || isNumber(event))) {
       event.preventDefault();
     }
   }
