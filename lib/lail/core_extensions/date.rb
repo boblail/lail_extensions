@@ -16,6 +16,12 @@ module Lail
       
       
       
+      def to_json
+        "new Date(#{self.year}, #{self.month-1}, #{self.day})"
+      end
+      
+      
+      
       def whole_months_since(earlier_date)
         earlier_date = 1.month.after(earlier_date.at_beginning_of_month) unless earlier_date.at_beginning_of_month?
         later_date = self.at_end_of_month? ? 1.month.after(self.at_beginning_of_month) : self.at_beginning_of_month
