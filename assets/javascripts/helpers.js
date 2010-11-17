@@ -28,7 +28,7 @@ Lail.allow_only_numbers = function(options) {
     exceptions.push(190); // keyCode for '.' on the 10-key
   }
   function isException(event) {
-    return exceptions.include(event.keyCode);
+    return exceptions.include(event.which);
   }
   function isNumber(event) {
     var w = event.which;
