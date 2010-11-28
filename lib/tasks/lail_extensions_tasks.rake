@@ -1,6 +1,6 @@
 namespace :db do
-
-    
+  
+  
   desc "Drop, create, run all migrations on the database"
   task :recreate do
     Rake::Task['environment'].invoke
@@ -8,8 +8,8 @@ namespace :db do
     Rake::Task['db:create'].invoke
     Rake::Task['db:migrate'].invoke
   end
-
-
+  
+  
   # thanks to: http://www.manu-j.com/blog/truncate-all-tables-in-a-ruby-on-rails-application/221/
   desc "Clear all data from the database"
   task :purge => :load_config do
