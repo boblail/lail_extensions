@@ -8,14 +8,18 @@ module Lail
       
       def include_stylesheet_dir(path, options={})
         stylesheets = get_assets_in_path(path, (options[:path] || 'stylesheets'), 'css', options)
-        stylesheet_link_tag *(stylesheets + [{:cache => "#{path}/concat"}.merge(options.pick(:media))])
+        cache_name = get_cache_name(path)
+        stylesheets.delete(cache_name + '.css')
+        stylesheet_link_tag *(stylesheets + [{:cache => cache_name}.merge(options.pick(:media))])
       end
       
       
       
       def include_javascript_dir(path, options={})
         javascripts = get_assets_in_path(path, (options[:path] || 'javascripts'), 'js', options)
-        javascript_include_tag *(javascripts + [{:cache => "#{path}/concat"}.merge(options.pick(:media))])
+        cache_name = get_cache_name(path)
+        javascripts.delete(cache_name + '.js')
+        javascript_include_tag *(javascripts + [{:cache => cache_name}])
       end
       
       
@@ -44,6 +48,12 @@ module Lail
       
       def apply_order(assets, order)
         order.empty? ? assets : ((order & assets) + (assets - order))
+      end
+      
+      
+      
+      def get_cache_name(path)
+        "#{path}/#{File.basename(path)}.min"
       end
       
       
