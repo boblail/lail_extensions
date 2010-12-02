@@ -6,12 +6,11 @@ Lail.debug = function(message) {
   }
 }
 
-Lail.number_to_currency = function(number) {
-  var money = number.toFixed(2);
+Lail.number_to_currency = function(money) {
   if(money < 0) {
-    return '($' + (-money).commafy() + ')';
+    return '($' + (-money).toFixed(2).commafy() + ')';
   } else {
-    return '$' + money.commafy();
+    return '$' + money.toFixed(2).commafy();
   }
 }
 
