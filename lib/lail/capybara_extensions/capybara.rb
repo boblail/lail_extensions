@@ -8,7 +8,7 @@ module Capybara
     _driver = Capybara.current_driver
     begin
       logout
-      Capybara.current_driver = :selenium
+      Capybara.current_driver = value
       yield
     ensure
       Capybara.current_driver = _driver

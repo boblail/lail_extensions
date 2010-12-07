@@ -22,7 +22,7 @@ if(document.observe) {
         // if(close_popup_on_esc && !disabled && (event.keyCode == Event.KEY_ESC)) {
         if(!disabled && (event.keyCode == Event.KEY_ESC)) {
           ModalPopup.cancel();
-          Event.stop(event);
+          // Event.stop(event);
         }
       });
     });
