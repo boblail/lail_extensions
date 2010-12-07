@@ -7,7 +7,7 @@ module Capybara
   def with_driver(value, &block)
     _driver = Capybara.current_driver
     begin
-      logout
+      Capybara.reset_sessions!
       Capybara.current_driver = value
       yield
     ensure
