@@ -16,9 +16,9 @@ module Lail
       
       
       
-      # def to_json
-      #   "new Date(#{self.year}, #{self.month-1}, #{self.day})"
-      # end
+      def to_json(options={})
+        "new Date(#{self.year}, #{self.month-1}, #{self.day})"
+      end
       
       
       
