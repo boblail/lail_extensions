@@ -29,6 +29,12 @@ module SettingsMachine
     
     
     
+    def to_hash
+      @settings.dup
+    end
+    
+    
+    
     def [](key)
       raise(ArgumentError, "#{key} is not a field of #{self.class}") unless fields.member?(key)
       @settings[key]
