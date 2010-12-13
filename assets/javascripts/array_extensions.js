@@ -57,7 +57,24 @@ if(!Array.prototype.detect) Array.prototype.detect = Array.prototype.__find;
 
 
 
-Array.prototype.__remove = function(fn) {
+Array.prototype.__remove = function(removeMe) {
+  if((typeof f) == 'function') {
+    this.__remove(removeMe);
+  } else {
+    for(var i=0, ii=this.length; i<ii; i++) {
+      if(this[i]==removeMe) {
+        this.splice(i, 1);
+        ii--;
+        i--;
+      }
+    }
+  }
+}
+if(!Array.prototype.remove) Array.prototype.remove = Array.prototype.__remove;
+
+
+
+Array.prototype.__removeWith = function(fn) {
   for(var i=0, ii=this.length; i<ii; i++) {
     if(fn(this[i])) {
       this.splice(i, 1);
@@ -66,8 +83,8 @@ Array.prototype.__remove = function(fn) {
     }
   }
 }
-if(!Array.prototype.remove) Array.prototype.remove = Array.prototype.__remove;
-// if(!Array.prototype.delete) Array.prototype.delete = Array.prototype.__remove;
+if(!Array.prototype.removeWith) Array.prototype.removeWith = Array.prototype.__removeWith;
+if(!Array.prototype.removeIf) Array.prototype.removeIf = Array.prototype.__removeWith;
 
 
 
