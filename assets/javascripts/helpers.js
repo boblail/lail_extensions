@@ -1,10 +1,14 @@
 var Lail; if(!Lail) Lail={};
 
+
+
 Lail.debug = function(message) {
   if(window.console) {
     window.console.log(message);
   }
 }
+
+
 
 Lail.number_to_currency = function(money) {
   if(money < 0) {
@@ -14,10 +18,14 @@ Lail.number_to_currency = function(money) {
   }
 }
 
+
+
 Lail.number_to_percentage = function(number) {
   var percent = (number * 100).toFixed(1);
   return percent + '%';
 }
+
+
 
 Lail.allow_only_numbers = function(options) {
   options = options || {};
@@ -39,6 +47,22 @@ Lail.allow_only_numbers = function(options) {
     }
   }
 }
+
+
+
+Lail.simulateClick = function(element) {
+  if(document.createEvent) {
+    var oEvent = document.createEvent('HTMLEvents');
+    oEvent.initEvent('click', true, true);
+    element.dispatchEvent(oEvent);
+  }
+  else if(document.createEventObject) {
+    var oEvent = document.createEventObject();
+    element.fireEvent('onclick', oEvent);
+  }
+}
+
+
 
 // !nb: relies on prototype...
 Lail.set_alternating_styles = function(selector) {
