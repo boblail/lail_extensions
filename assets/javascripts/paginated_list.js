@@ -118,6 +118,7 @@ Lail.PaginatedList = function(list, options) {
   
   
   
+  // !nb: uses jQuery!!!
   this.renderPaginationIn = function(selector) {
     self.pagination_container = jQuery(selector);
     self.pagination_container.delegate('a', 'click', function(e) {
@@ -149,8 +150,6 @@ Lail.PaginatedList = function(list, options) {
         count = self.page_count,
         min = 1,
         max = count;
-    App.debug(count);
-    App.debug(current);
     if(self.page_count > 7) {
       min = current - 3;
       max = current + 3;
