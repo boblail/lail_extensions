@@ -65,7 +65,7 @@ Lail.ActiveRecord = Klass.extend({
   },
   
   __createRecord: function(newRecord) {
-    records.push(newRecord);
+    this.__records.push(newRecord);
     observer.fire('create', [newRecord]);
   },
   
