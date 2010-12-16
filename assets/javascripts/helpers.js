@@ -74,3 +74,14 @@ Lail.set_alternating_styles = function(selector) {
     }
   })
 };
+
+
+
+Lail.simulateHoverStyle = function(element) {
+  element.observe('mouseover', function() {
+    element.addClassName('hovered');
+  });
+  element.observe('mouseout', function() {
+    element.removeClassName('hovered');
+  });
+}
