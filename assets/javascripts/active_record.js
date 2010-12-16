@@ -23,7 +23,7 @@ Lail.ActiveRecord = Klass.extend({
   
   
   load: function(records) {
-    this.__records = records;
+    this.__records = records || [];
   },
   
   
@@ -37,14 +37,20 @@ Lail.ActiveRecord = Klass.extend({
   },
   
   find: function(id) {
-    return this.__records.find(function(record) {return (record.id == id)});
+    // be sure to use the method defined in Lail.ArrayExtensions
+    return this.__records.__find(function(record) {return (record.id == id)});
+  },
+  
+  collect: function(attribute) {
+    // be sure to use the method defined in Lail.ArrayExtensions
+    return this.__records.__collect(function(record) {return record[attribute];});
   },
   
   
   
   update: function() {
-    Array.each(arguments, this.__updateRecord);
-    observer.fire('afterUpdate');
+    for(var i=0, ii=arguments.length; i<ii; i++) {this.__updateRecord(arguments[i]);}
+    this.__observer.fire('afterUpdate');
   },
   
   __updateRecord: function(newRecord) {
@@ -60,38 +66,31 @@ Lail.ActiveRecord = Klass.extend({
   
   
   create: function() {
-    Array.each(arguments, this.__createRecord);
-    observer.fire('afterCreate');
+    for(var i=0, ii=arguments.length; i<ii; i++) {this.__createRecord(arguments[i]);}
+    this.__observer.fire('afterCreate');
   },
   
   __createRecord: function(newRecord) {
     this.__records.push(newRecord);
-    observer.fire('create', [newRecord]);
+    this.__observer.fire('create', [newRecord]);
   },
   
   
   
   destroy: function() {
-    Array.each(arguments, this.__destroyRecord);
-    observer.fire('afterDestroy');
+    for(var i=0, ii=arguments.length; i<ii; i++) {this.__destroyRecord(arguments[i]);}
+    this.__observer.fire('afterDestroy');
   },
   
   __destroyRecord: function(id) {
     for(var i=0, ii=this.__records.length; i<ii; i++) {
       var record = this.__records[i];
       if(record.id == id) {
-        observer.fire('destroy', record);
+        this.__observer.fire('destroy', record);
         this.__records.splice(i, 1);
         return;
       }
     }
-    // __records.remove(function(record) {
-    //   if(record.id == id) {
-    //     observer.fire('destroy', record);
-    //     return true;
-    //   }
-    //   return false;
-    // });
   }
 });
   

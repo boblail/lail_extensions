@@ -36,11 +36,24 @@ if(!Array.prototype.each) Array.prototype.each = Array.prototype.__each;
 
 
 
-Array.each = function(array, fn) {
+Array.prototype.__collect = function(fn) {
+  var array = [];
+  for(var i=0, ii=this.length; i<ii; i++) {
+    array.push(fn(this[i]));
+  }
+  return array;
+}
+if(!Array.prototype.collect) Array.prototype.collect = Array.prototype.__collect;
+if(!Array.prototype.map) Array.prototype.map = Array.prototype.__collect;
+
+
+
+Array.__each = function(array, fn) {
   for(var i=0, ii=array.length; i<ii; i++) {
     fn(array[i]);
   }
 }
+if(!Array.each) Array.each = Array.__each;
 
 
 
