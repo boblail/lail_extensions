@@ -33,8 +33,10 @@ rule "" do |t|
     end
 =end
 
+  # rake_test_loader = '/opt/local/lib/ruby/gems/1.8/gems/rake-0.8.7/lib/rake/rake_test_loader.rb'
+  rake_test_loader = Gem.find_files('rake/rake_test_loader.rb')
     if test = Dir.glob("test/**/#{file_name}").first
-      sh "ruby -Ilib:test \"/opt/local/lib/ruby/gems/1.8/gems/rake-0.8.7/lib/rake/rake_test_loader.rb\" #{test} #{"-n /#{test_pattern}/" if test_pattern}"
+      sh "ruby -Ilib:test \"#{rake_test_loader}\" #{test} #{"-n /#{test_pattern}/" if test_pattern}"
     else
       puts "no test was found with the file name \"#{file_name}\""
     end
