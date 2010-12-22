@@ -27,6 +27,12 @@ Lail.number_to_percentage = function(number) {
 
 
 
+Lail.concatQueryString = function(url, query) {
+  return url + ((url.indexOf('?')>=0) ? '&' : '?') + query;
+}
+
+
+
 Lail.allow_only_numbers = function(options) {
   options = options || {};
   var exceptions = [46, 8]; // Allow backspace and delete
