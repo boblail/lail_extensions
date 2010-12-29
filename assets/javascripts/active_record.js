@@ -62,8 +62,8 @@ Lail.ActiveRecord = Klass.extend({
           record[newAttribute] = newRecord[newAttribute];
         }
         this.__observer.fire('update', [record]);
-      } else if(record.id) {
-        this.__createRecord(record);
+      } else if(newRecord.id) {
+        this.__createRecord(newRecord);
       }
     }
   },
