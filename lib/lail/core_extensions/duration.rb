@@ -8,6 +8,8 @@
 #   end
 # end
 
+require 'active_support/all'
+
 module DurationExtensions
   
   def from(*args)

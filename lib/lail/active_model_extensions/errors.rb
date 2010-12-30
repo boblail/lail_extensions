@@ -12,7 +12,8 @@ module Lail
       
       def any_invalid?(*attributes)
         attributes.each do |attribute|
-          return true if invalid?(attribute)
+          # return true if invalid?(attribute)
+          return true if self[attribute].any?
         end
         false
       end
