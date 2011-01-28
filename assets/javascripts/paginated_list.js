@@ -62,6 +62,10 @@ Lail.PaginatedList = function(list, options) {
     return self.current_set;
   }
   
+  this.getEntireSet = function() {
+    return self.set;
+  }
+  
   function renderPagination() {
     if(self.pagination_container) {
       self.pagination_container.html(self.renderPagination());
