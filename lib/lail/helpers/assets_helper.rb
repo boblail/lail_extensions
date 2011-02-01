@@ -3,6 +3,24 @@ require 'lail/core_extensions/dir'
 module Lail
   module Helpers
     module AssetsHelper
+      include ActionView::Helpers::AssetTagHelper
+      
+      
+      
+      alias_method :old_javascript_include_tag, :javascript_include_tag
+      def javascript_include_tag(*sources)
+        options = sources.extract_options!
+        expanded_sources = []
+        sources.each do |source|
+          if source =~ /\*/
+            expanded_sources.concat Dir.glob_in("#{Rails.root}/public", ".#{source}").map {|i| i[1..-1]}
+          else
+            expanded_sources << source
+          end
+        end
+        old_javascript_include_tag *(expanded_sources.uniq + [options])
+      end
+      
       
       
       
@@ -19,7 +37,7 @@ module Lail
         javascripts = get_assets_in_path(path, (options[:path] || 'javascripts'), 'js', options)
         cache_name = get_cache_name(path)
         javascripts.delete(cache_name + '.js')
-        javascript_include_tag *(javascripts + [{:cache => cache_name}])
+        old_javascript_include_tag *(javascripts + [{:cache => cache_name}])
       end
       
       
