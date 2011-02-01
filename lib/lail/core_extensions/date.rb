@@ -15,6 +15,10 @@ module Lail
         end
       end
       
+      def next_sunday
+        self.last_sunday + 7
+      end
+      
       
       
       def to_json(options={})
