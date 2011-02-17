@@ -35,23 +35,71 @@ Lail.concatQueryString = function(url, query) {
 
 Lail.allow_only_numbers = function(options) {
   options = options || {};
-  var exceptions = [46, 8]; // Allow backspace and delete
+  var allowed = {};
+  for(var i=0; i<8; i++) { allowed[i] = []; }
+  
+  // Alt only              modifiers=1 (001)
+  // Ctrl only             modifiers=2 (010)
+  // Ctrl+Alt              modifiers=3 (011)
+  // Shift only            modifiers=4 (100)
+  // Shift+Alt             modifiers=5 (101)
+  // Shift+Ctrl            modifiers=6 (110)
+  // Shift+Alt+Ctrl        modifiers=7 (111)
+  // None of these keys    modifiers=0 (000)
+  
+  function allow() {
+    var args = Array.prototype.slice.call(arguments),
+        code = args.shift(),
+        modifiers = (args.length == 0 ? [0,1,2,3,4,5,6,7] : args);
+    modifiers.__each(function(modifier) {
+      allowed[modifier].push(code);
+    });
+  }
+  
+  allow(8);   // Allow backspace
+  allow(46);  // Allow delete
+  for(var i=48; i<=57; i++) { allow(i, [0]); }  // Allow numbers
+  for(var i=96; i<=105; i++) { allow(i, [0]); } // Allow numbers on the 10-key
+  
   if(options.allowDecimalPoint) {
-    exceptions.push(110); // keyCode for '.'
-    exceptions.push(190); // keyCode for '.' on the 10-key
+    allow(110, [0]);
+    allow(190, [0]); // On the 10-key
   }
-  function isException(event) {
-    return exceptions.include(event.which);
+  if(options.allowDashes) {
+    allow(189, [0]);
   }
-  function isNumber(event) {
-    var w = event.which;
-    return (!event.shiftKey && ((w>=48 && w<=57) || (w>=96 && w<=105)));
+  if(options.allowSpaces) {
+    allow(32);
   }
-  return function(event) {
-    if(!(isException(event) || isNumber(event))) {
-      event.preventDefault();
-    }
+  if(options.allowParentheses) {
+    allow(57, [4]); // '(' is Shift+9
+    allow(48, [4]); // ')' is Shift+0
   }
+  
+  return Lail.__restrictInputToKeys(allowed);
+}
+
+
+
+Lail.__restrictInputToKeys = function(allowed) {
+  function eventHandler(e) {
+    var modifiers = Lail.__getModifiers(e);
+    !isAllowed(e.which, modifiers) && e.preventDefault();
+  }
+  function isAllowed(code, modifiers) {
+    return allowed[modifiers].includes(code);
+  }
+  return eventHandler;
+}
+
+
+
+Lail.__getModifiers = function(keysPressed) {
+  var modifiers = 0;
+  keysPressed.altKey && (modifiers += 1);
+  keysPressed.ctrlKey && (modifiers += 2);
+  keysPressed.shiftKey && (modifiers += 4);
+  return modifiers;
 }
 
 
