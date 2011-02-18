@@ -131,6 +131,43 @@ Lail.set_alternating_styles = function(selector) {
 
 
 
+Lail.getDataSpread = function(values, min, max) {
+  values.__each(function(value) {
+    (!App.exists(min) || min > value) && (min = value);
+    (!App.exists(max) || max < value) && (max = value);
+  });
+  return [min, max];
+};
+
+
+
+Lail.scaleSpread = function(minMax, scaleBy) {
+  var spread = minMax[1] - minMax[0],
+      scaled = spread * scaleBy,
+      halfDiff = (scaled - spread) / 2;
+  return [(minMax[0] - halfDiff), (minMax[1] + halfDiff)];
+};
+
+
+
+Lail.getCoordinateTransformer = function(axisMinMax, paperMinMax) {
+  var axisMin = axisMinMax[0],
+      axisSpread = axisMinMax[1] - axisMin,
+      paperMin = paperMinMax[0],
+      paperSpread = paperMinMax[1] - paperMin,
+      m = paperSpread / axisSpread,
+      b = paperMin - (axisMin * m);
+  return function(x) { return (m * x) + b; }
+}
+
+
+
+Lail.exists = function(n) {
+  return (typeof n != "undefined" && n !== null);
+};
+
+
+
 Lail.simulateHoverStyle = function(element) {
   element.observe('mouseover', function() {
     element.addClassName('hovered');
