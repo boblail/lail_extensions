@@ -21,8 +21,8 @@ module SettingsMachine
     else
       raise "expected to call has_settings only on ActiveRecord::Base or SettingsMachine::Base"
     end
-    define_method("#{attribute}=") do
-      raise "this field cannot be set through a setter"
+    define_method("#{attribute}=") do |value|
+      send(attribute).merge!(value)
     end
   end
   
