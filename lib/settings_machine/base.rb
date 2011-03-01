@@ -78,6 +78,14 @@ module SettingsMachine
       string.blank? ? (options[:default] || false) : %w{true 1}.member?(string)
     end
     
+    def date_or_nil(string)
+      begin
+        Date.parse(string)
+      rescue
+        nil
+      end
+    end
+    
     
     
   end
