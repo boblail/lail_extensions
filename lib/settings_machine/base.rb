@@ -75,7 +75,14 @@ module SettingsMachine
     end
     
     def to_bool(string, options={})
-      string.blank? ? (options[:default] || false) : %w{true 1}.member?(string)
+      case string
+      when TrueClass, FalseClass
+        string
+      when String
+        string.blank? ? to_bool(nil, options) : %w{true 1}.member?(string)
+      else
+        options[:default] || false
+      end
     end
     
     def date_or_nil(string)

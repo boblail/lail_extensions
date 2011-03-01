@@ -8,13 +8,26 @@ module Enumerable
   
   
   
-  def collect_with_index(&block)
+  def car
+    first
+  end
+  
+  def cdr
+    self[1..-1]
+  end
+  
+  
+  
+  def collect_with_index
     new_array = []
-    each_with_index do |item, index|
-      new_array << yield(item, index)
+    if block_given?
+      each_with_index {|item, index| new_array <<  yield(item, index)}
+    else
+      each_with_index {|item, index| new_array <<  [item, index]}
     end
     new_array
   end
+  alias :map_with_index :collect_with_index
   
   
   # This is in ActiveSupport::CoreExtensions::Array::Grouping now
