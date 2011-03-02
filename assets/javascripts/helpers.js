@@ -11,6 +11,13 @@ Lail.debug = function(message) {
 
 
 Lail.number_to_currency = function(money) {
+  if(money == null) { // null or undefined?
+    return '';
+  }
+  money = +money; // convert strings and nulls to numbers
+  if(!money.toFixed) { // not a number?
+    return '';
+  }
   if(money < 0) {
     return '($' + (-money).toFixed(2).commafy() + ')';
   } else {
