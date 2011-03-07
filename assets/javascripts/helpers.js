@@ -162,7 +162,7 @@ Lail.getCoordinateTransformer = function(axisMinMax, paperMinMax) {
       axisSpread = axisMinMax[1] - axisMin,
       paperMin = paperMinMax[0],
       paperSpread = paperMinMax[1] - paperMin,
-      m = paperSpread / axisSpread,
+      m = paperSpread / (axisSpread == 0 ? 1 : axisSpread),
       b = paperMin - (axisMin * m);
   return function(x) { return (m * x) + b; }
 }
