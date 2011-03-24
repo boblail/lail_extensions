@@ -22,4 +22,3 @@ module Lail
 end
 
 Time.send     :include, Lail::CoreExtensions::Time
-DateTime.send :include, Lail::CoreExtensions::Time
