@@ -3,6 +3,11 @@ module Lail
     module FlashMessageHelper
       
       
+      def flash_messages(*args)
+        options = args.extract_options!
+        args.inject("") {|html, key| html << flash_message(key, options)}
+      end
+      
       
       def flash_message(key, options={})
         message = (flash[key] || "").to_s
@@ -10,7 +15,6 @@ module Lail
         options.merge!(:style => "display:none;") if message.empty?
         content_tag :div, message, options
       end
-      
       
       
     end
