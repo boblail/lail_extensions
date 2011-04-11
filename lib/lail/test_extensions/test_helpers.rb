@@ -32,7 +32,7 @@ module Lail
       
       
       def all_helpers
-        Dir.entries(@@helpers_path).select{|s| s=~/\.rb/}
+        File.exist?(@@helpers_path) ? Dir.entries(@@helpers_path).select{|s| s=~/\.rb/} : []
       end
       
       
