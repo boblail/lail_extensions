@@ -6,7 +6,7 @@ Lail.debug = function(message) {
   if(window.console) {
     window.console.log(message);
   }
-}
+};
 
 
 
@@ -23,20 +23,20 @@ Lail.number_to_currency = function(money) {
   } else {
     return '$' + money.toFixed(2).commafy();
   }
-}
+};
 
 
 
 Lail.number_to_percentage = function(number) {
   var percent = (number * 100).toFixed(1);
   return percent + '%';
-}
+};
 
 
 
 Lail.concatQueryString = function(url, query) {
   return url + ((url.indexOf('?')>=0) ? '&' : '?') + query;
-}
+};
 
 
 
@@ -84,7 +84,7 @@ Lail.allow_only_numbers = function(options) {
   }
   
   return Lail.__restrictInputToKeys(allowed);
-}
+};
 
 
 
@@ -97,7 +97,7 @@ Lail.__restrictInputToKeys = function(allowed) {
     return allowed[modifiers].includes(code);
   }
   return eventHandler;
-}
+};
 
 
 
@@ -107,7 +107,7 @@ Lail.__getModifiers = function(keysPressed) {
   keysPressed.ctrlKey && (modifiers += 2);
   keysPressed.shiftKey && (modifiers += 4);
   return modifiers;
-}
+};
 
 
 
@@ -121,7 +121,7 @@ Lail.simulateClick = function(element) {
     var oEvent = document.createEventObject();
     element.fireEvent('onclick', oEvent);
   }
-}
+};
 
 
 
@@ -166,7 +166,7 @@ Lail.getCoordinateTransformer = function(axisMinMax, paperMinMax) {
       m = paperSpread / (axisSpread == 0 ? 1 : axisSpread),
       b = paperMin - (axisMin * m);
   return function(x) { return (m * x) + b; }
-}
+};
 
 
 
@@ -183,4 +183,4 @@ Lail.simulateHoverStyle = function(element) {
   element.observe('mouseout', function() {
     element.removeClassName('hovered');
   });
-}
+};
