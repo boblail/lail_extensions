@@ -23,9 +23,11 @@ module SettingsMachine
     
     
     
-    def initialize(record, original_attribute, settings)
-      @record, @original_attribute, @settings = record, original_attribute, settings
+    def initialize(parent, original_attribute, settings)
+      @parent, @original_attribute, @settings = parent, original_attribute, settings
     end
+    
+    attr_reader :parent, :original_attribute
     
     
     
@@ -58,14 +60,28 @@ module SettingsMachine
     
     
     
+    def record
+      record = parent
+      while record.is_a?(SettingsMachine::Base)
+        record = record.parent
+      end
+      record
+    end
+    
+    
+    
     def touch
-      @record.send("#{@original_attribute}_will_change!")
+      if(parent == record)
+        parent.try("#{@original_attribute}_will_change!".to_sym)
+      else
+        parent.touch
+      end
     end
     
     
     
     def save
-      @record.save(:validate => false) # !nb: is this a good idea?
+      record.save(:validate => false) # !nb: is this a good idea?
     end
     
     
