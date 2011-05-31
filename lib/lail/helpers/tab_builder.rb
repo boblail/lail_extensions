@@ -29,6 +29,7 @@ module Lail
           tab = "<a href=\"#{url}#tabs\">#{tab}</a>"
         end
         tabs << "<li id=\"#{id}\" class=\"#{css.join(" ")}\">#{tab}</li>"
+        nil
       end
       
       

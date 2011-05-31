@@ -5,29 +5,29 @@ module Lail
       
       
       def tab_control_for(verb, options={}, &block)
-        concat "<div class=\"tab-control\">"
-        tabs_for(verb, options, &block)
-        concat "<div class=\"tab-body\">"
-        concat render :partial => selected_tab(verb)
-        concat "</div>"
-        concat "</div>"
+        "<div class=\"tab-control\">".html_safe << 
+          tabs_for(verb, options, &block) <<
+          "<div class=\"tab-body\">".html_safe <<
+            render(:partial => selected_tab(verb)) <<
+          "</div>".html_safe <<
+        "</div>".html_safe
       end
       
       
       
       def tabs_for(verb, options={}, &block)
         unless url=options[:url]
-          url = @controller.request.request_uri
+          url = request.url
           url = url.split("?").first if url.index("?")
         end
         current_mode = selected_tab(verb) || options[:default]
         separator = options[:separator] || "" #"&nbsp;&nbsp;|&nbsp;&nbsp;"
         
-        concat "<ul class=\"tabs\">"
-          t = TabBuilder.new(self, url, verb, current_mode, options)
-          yield t
-          concat t.tabs.join(separator)
-        concat "</ul>"
+        t = TabBuilder.new(self, url, verb, current_mode, options)
+        yield(t)
+       ("<ul class=\"tabs\">" <<
+          t.tabs.join << 
+        "</ul>").html_safe
       end
       
       
