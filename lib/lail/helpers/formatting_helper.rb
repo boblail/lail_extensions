@@ -1,6 +1,7 @@
 module Lail
   module Helpers
     module FormattingHelper
+      include ActionView::Helpers::TagHelper
       
       
       
@@ -24,9 +25,10 @@ module Lail
       
       
       
-      def format_errors(object)    
+      def format_errors(object)
         if object and object.respond_to?("errors") and !(messages = object.errors.all_messages).empty?
-          "<ul>" + messages.collect{|msg| "<li>#{msg}</li>"}.join + "</ul>"
+          s = "<ul>#{messages.collect{|msg| content_tag(:li, msg)}.join}</ul>"
+          s.respond_to?(:html_safe) ? s.html_safe : s
         else
           ""
         end
