@@ -59,8 +59,9 @@ if(!Array.each) Array.each = Array.__each;
 
 Array.prototype.__find = function(fn) {
   for(var i=0, ii=this.length; i<ii; i++) {
-    if(fn(this[i])) {
-      return this[i];
+    var e = this[i];
+    if(fn(e)) {
+      return e;
     }
   }
   return null;
