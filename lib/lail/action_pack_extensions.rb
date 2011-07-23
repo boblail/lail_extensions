@@ -7,7 +7,7 @@ ActionController::Base.send :include, Lail::ActionPackExtensions::DebugParams
 if !defined?(ActionView::Helpers::PrototypeHelper::JavaScriptGenerator)
   begin
     require 'action_view/helpers/prototype_helper'
-  rescue
+  rescue LoadError
   end
 end
 
