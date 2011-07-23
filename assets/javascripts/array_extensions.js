@@ -71,6 +71,15 @@ if(!Array.prototype.detect) Array.prototype.detect = Array.prototype.__find;
 
 
 
+Array.prototype.__grep = function(regex) {
+  return this.__select(function(e) {
+    return e.toString().match(regex);
+  });
+}
+if(!Array.prototype.grep) Array.prototype.grep = Array.prototype.__grep;
+
+
+
 Array.prototype.__remove = function(removeMe) {
   if((typeof f) == 'function') {
     this.__remove(removeMe);
