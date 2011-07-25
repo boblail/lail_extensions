@@ -33,19 +33,19 @@ if(document.observe) {
     }
     
     function _on_resize(div) {
-      var de = document.documentElement;
-      var w = window.innerWidth || self.innerWidth || (de&&de.clientWidth) || document.body.clientWidth;
-      var h = window.innerHeight || self.innerHeight || (de&&de.clientHeight) || document.body.clientHeight;
+      debug(div);
+      var de  = document.documentElement,
+          w   = window.innerWidth || self.innerWidth || (de&&de.clientWidth) || document.body.clientWidth,
+          h   = window.innerHeight || self.innerHeight || (de&&de.clientHeight) || document.body.clientHeight,
+          width       = Element.getWidth(div),
+          margin_left = ((w - width) / 2) + 'px',
+          height      = Element.getHeight(div),
+          margin_top  = ((h - height) / 2) + 'px';
       
-      var width = div.getWidth();
-      var margin_left = ((w - width) / 2) + 'px';
-      var height = div.getHeight();
-      var margin_top = ((h - height) / 2) + 'px';
-      
-      //debug(w+', '+h);
-      //debug(width+','+height);
-      //debug(margin_left+','+margin_top);
-      div.setStyle({marginLeft:margin_left, marginTop:margin_top});
+      div.setStyle({
+        marginLeft: margin_left,
+        marginTop: margin_top
+      });
     };
     
     function _create_frame() {
@@ -80,13 +80,17 @@ if(document.observe) {
   
     function _prepare_contents(div) {
       // todo: might want to add loaded trigger here too
-
+      
+      function _on_resize_handler() {
+        _on_resize(div);
+      }
+      
       // resize
-      div.stopObserving('resize',_on_resize);
-      div.observe('resize',_on_resize);
+      div.stopObserving('resize',_on_resize_handler);
+      div.observe('resize',_on_resize_handler);
       _on_resize(div);
     };
-  
+    
     function _get_or_create_popup() {
       if(!open_popup) {
         var popup_frame = _create_frame();
