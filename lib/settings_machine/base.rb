@@ -32,7 +32,7 @@ module SettingsMachine
     
     
     def to_hash
-      @settings.dup
+      fields.inject({}) {|hash, field| hash.merge(field => send(field)) }
     end
     
     
@@ -50,7 +50,7 @@ module SettingsMachine
     
     def merge!(hash)
       (hash ||= {}).pick(fields).each do |key, value|
-        self[key] = value
+        self.send("#{key}=", value)
       end
     end
     
