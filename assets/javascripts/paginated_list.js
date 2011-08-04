@@ -1,3 +1,4 @@
+var Lail; if(!Lail) Lail={};
 Lail.PaginatedList = function(list, options) {
   // todo: paste John Resig's code
   
