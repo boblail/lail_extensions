@@ -147,7 +147,7 @@ Lail.PaginatedList = function(list, options) {
     if(self.isFirstPage()) {
       html += '<span class="prev_page disabled">&#171; Previous</span> ';
     } else {
-      html += '<a class="prev_page" rel="previous">&#171; Previous</a> ';
+      html += '<a class="prev_page" href="#" rel="previous">&#171; Previous</a> ';
     }
     
     // list no more than 7 page numbers
@@ -166,14 +166,14 @@ Lail.PaginatedList = function(list, options) {
       if(i == self.current_page) {
         html += ' <span class="currentPage">' + i + '</span> ';
       } else {
-        html += ' <a class="goto_page" id="page_' + i + '">' + i + '</a> ';
+        html += ' <a class="goto_page" href="#" id="page_' + i + '">' + i + '</a> ';
       }
     }
     
     if(self.isLastPage()) {
       html += ' <span class="next_page disabled">Next &#187;</span>';
     } else {
-      html += ' <a class="next_page" rel="next">Next &#187;</a>';
+      html += ' <a class="next_page" href="#" rel="next">Next &#187;</a>';
     }
     
     return html;
