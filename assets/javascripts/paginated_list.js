@@ -127,6 +127,7 @@ Lail.PaginatedList = function(list, options) {
   this.renderPaginationIn = function(selector) {
     self.pagination_container = jQuery(selector);
     self.pagination_container.delegate('a', 'click', function(e) {
+      e.preventDefault();
       e.stopImmediatePropagation();
       var a = jQuery(this);
       if(a.hasClass('prev_page')) {
