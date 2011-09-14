@@ -5,7 +5,7 @@ module Lail
       
       def flash_messages(*args)
         options = args.extract_options!
-        args.inject("") {|html, key| html << flash_message(key, options.dup)}
+        args.inject("") {|html, key| html << flash_message(key, options.dup)}.html_safe
       end
       
       
