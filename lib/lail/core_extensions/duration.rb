@@ -1,14 +1,5 @@
-# module ActiveSupport
-#   class Duration
-#     
-#     alias :from   :since
-#     alias :after  :since
-#     alias :before :ago
-#     
-#   end
-# end
+require "active_support/duration"
 
-require 'active_support/all'
 
 module DurationExtensions
   
@@ -23,7 +14,8 @@ module DurationExtensions
   def before(*args)
     ago(*args)
   end
-
+  
 end
+
 
 ActiveSupport::Duration.send(:include, DurationExtensions)
