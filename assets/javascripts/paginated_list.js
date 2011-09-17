@@ -9,6 +9,7 @@ Lail.PaginatedList = function(list, options) {
   this.set_length = 0;
   this.current_page = 1;
   this.page_size = options.page_size || 20;
+  this.always_show = (typeof options.always_show == 'undefined') ? true : options.always_show;
   this.page_count = 1;
   this.observer = new Observer();
   this.pagination_container = null;
@@ -143,38 +144,40 @@ Lail.PaginatedList = function(list, options) {
   
   // !todo: use Handlebars
   this.renderPagination = function() {
-    var html = '';
-    
-    if(self.isFirstPage()) {
-      html += '<span class="prev_page disabled">&#171; Previous</span> ';
-    } else {
-      html += '<a class="prev_page" href="#" rel="previous">&#171; Previous</a> ';
-    }
-    
-    // list no more than 7 page numbers
-    var current = self.current_page,
+    var html = '',
+        current = self.current_page,
         count = self.page_count,
         min = 1,
         max = count;
-    if(self.page_count > 7) {
-      min = current - 3;
-      max = current + 3;
-      var shift = (min < 1) ? (1 - min) : ((max > count) ? (count - max) : 0);
-      min += shift;
-      max += shift;
-    }
-    for(var i=min; i<=max; i++) {
-      if(i == self.current_page) {
-        html += ' <span class="currentPage">' + i + '</span> ';
-      } else {
-        html += ' <a class="goto_page" href="#" id="page_' + i + '">' + i + '</a> ';
-      }
-    }
     
-    if(self.isLastPage()) {
-      html += ' <span class="next_page disabled">Next &#187;</span>';
-    } else {
-      html += ' <a class="next_page" href="#" rel="next">Next &#187;</a>';
+    if(this.always_show || count > 1) {
+      if(self.isFirstPage()) {
+        html += '<span class="prev_page disabled">&#171; Previous</span> ';
+      } else {
+        html += '<a class="prev_page" href="#" rel="previous">&#171; Previous</a> ';
+      }
+      
+      // list no more than 7 page numbers
+      if(self.page_count > 7) {
+        min = current - 3;
+        max = current + 3;
+        var shift = (min < 1) ? (1 - min) : ((max > count) ? (count - max) : 0);
+        min += shift;
+        max += shift;
+      }
+      for(var i=min; i<=max; i++) {
+        if(i == self.current_page) {
+          html += ' <span class="currentPage">' + i + '</span> ';
+        } else {
+          html += ' <a class="goto_page" href="#" id="page_' + i + '">' + i + '</a> ';
+        }
+      }
+      
+      if(self.isLastPage()) {
+        html += ' <span class="next_page disabled">Next &#187;</span>';
+      } else {
+        html += ' <a class="next_page" href="#" rel="next">Next &#187;</a>';
+      }
     }
     
     return html;
