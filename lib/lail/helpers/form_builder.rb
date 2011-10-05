@@ -9,12 +9,13 @@ class ActionView::Helpers::FormBuilder
   
   def method_missing(symbol, *args, &block)
     if (match = symbol.to_s.match /^(.*)_with_label$/)
-      return <<-HTML
+      html = <<-HTML
       <label for="#{args.first}">
         <span>#{h args.shift}</span>
         #{send match[1].to_sym, *args, &block}
       </label>
       HTML
+      return html.html_safe
     end
     super
   end
@@ -48,7 +49,7 @@ module ActionView::Helpers::FormHelper
         html << check_box
       end
     end
-    html
+    html.html_safe
   end
   
   
