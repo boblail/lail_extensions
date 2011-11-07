@@ -122,3 +122,9 @@ Array.prototype.__select = function(fn) {
 }
 if(!Array.prototype.select) Array.prototype.select = Array.prototype.__select;
 if(!Array.prototype.findAll) Array.prototype.findAll = Array.prototype.__select;
+
+
+Array.prototype.__dup = function() {
+  return this.slice(0);
+}
+if(!Array.prototype.dup) Array.prototype.dup = Array.prototype.__dup;
