@@ -65,6 +65,9 @@ Lail.allow_only_numbers = function(options) {
   
   allow(8);   // Allow backspace
   allow(46);  // Allow delete
+  allow(37); allow(38); allow(39); allow(40); // Allow arrow keys
+  allow(9);   // Allow tab
+  allow(13);  // Allow enter
   for(var i=48; i<=57; i++) { allow(i, [0]); }  // Allow numbers
   for(var i=96; i<=105; i++) { allow(i, [0]); } // Allow numbers on the 10-key
   
