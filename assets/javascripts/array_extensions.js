@@ -81,15 +81,11 @@ if(!Array.prototype.grep) Array.prototype.grep = Array.prototype.__grep;
 
 
 Array.prototype.__remove = function(removeMe) {
-  if((typeof f) == 'function') {
-    this.__remove(removeMe);
-  } else {
-    for(var i=0, ii=this.length; i<ii; i++) {
-      if(this[i]==removeMe) {
-        this.splice(i, 1);
-        ii--;
-        i--;
-      }
+  for(var i=0, ii=this.length; i<ii; i++) {
+    if(this[i]==removeMe) {
+      this.splice(i, 1);
+      ii--;
+      i--;
     }
   }
 }
