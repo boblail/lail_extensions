@@ -22,24 +22,16 @@ rule "" do |t|
     file_pattern = arguments.shift
     test_pattern = arguments.shift
     file_name = "#{file_pattern}_test.rb"
+    tests = Dir.glob("test/**/#{file_name}")
+    # tests = Dir.glob('test/**/*_test.rb').select{|file| file.match(file_name)}
     
-    # the following works but it doesn't seem I can run multiple files with the -n switch
-=begin
-    rake_test_loader = Gem.find_files('rake/rake_test_loader.rb')
-    tests = Dir.glob('test/**/*_test.rb').select{|file| file.match(file_name)}
     if tests.empty?
       puts "no test was found with the file name \"#{file_name}\""
-    else
+    elsif tests.length == 1
+      sh "ruby -Ilib:test #{tests.first} #{"-n /#{test_pattern}/" if test_pattern}"
+    else # You can't run multiple files with the -n switch
+      rake_test_loader = Gem.find_files('rake/rake_test_loader.rb').last
       sh "ruby -Ilib:test \"#{rake_test_loader}\" #{tests.join(' ')}"
-    end
-=end
-    
-    test = Dir.glob("test/**/#{file_name}").first
-    if test.nil?
-      puts "no test was found with the file name \"#{file_name}\""
-    else
-      # sh "ruby -Ilib:test \"#{rake_test_loader}\" #{test} #{"-n /#{test_pattern}/" if test_pattern}"
-      sh "ruby -Ilib:test #{test} #{"-n /#{test_pattern}/" if test_pattern}"
     end
   end
 end
