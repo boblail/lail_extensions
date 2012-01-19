@@ -25,7 +25,7 @@ module Lail
         self.each do |attribute, messages|
           begin
             messages = [messages] unless messages.is_a?(Array)
-            if attribute == "base"
+            if attribute.to_s == "base"
               all_messages.concat(messages)
             elsif @base.respond_to?(attribute) and
                   (value = @base.send(attribute)).respond_to?(:errors) and
