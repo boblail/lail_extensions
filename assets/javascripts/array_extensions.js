@@ -120,7 +120,20 @@ if(!Array.prototype.select) Array.prototype.select = Array.prototype.__select;
 if(!Array.prototype.findAll) Array.prototype.findAll = Array.prototype.__select;
 
 
+
 Array.prototype.__dup = function() {
   return this.slice(0);
 }
 if(!Array.prototype.dup) Array.prototype.dup = Array.prototype.__dup;
+
+
+
+Array.prototype.__first = function() {
+  return this[0];
+}
+if(!Array.prototype.first) Array.prototype.first = Array.prototype.__first;
+
+Array.prototype.__last = function() {
+  return this[this.length - 1];
+}
+if(!Array.prototype.last) Array.prototype.last = Array.prototype.__last;
