@@ -4,9 +4,27 @@ module Lail
       
       
       
+      # def pick(*picks)
+      #   picks = picks.flatten
+      #   picks.inject({}) {|result, key| self.key?(key) ? result.merge(key => self[key]) : result}
+      # end
+      
       def pick(*picks)
         picks = picks.flatten
-        picks.inject({}) {|result, key| self.key?(key) ? result.merge(key => self[key]) : result}
+        
+        mapped_picks = {}
+        picks.each do |pick|
+          if pick.is_a?(Hash)
+            mapped_picks.merge!(pick)
+          else
+            mapped_picks[pick] = pick
+          end
+        end
+        
+        mapped_picks.inject({}) do |result, (key, new_key)|
+          result[new_key] = self[key] if self.key?(key)
+          result
+        end
       end
       
       
