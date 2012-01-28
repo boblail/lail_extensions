@@ -31,7 +31,7 @@ module RFC822
     lan = "[a-zA-Z0-9]" # letters and numbers
     any = "[\\w\\.-]" # all valid characters
     
-    /\A#{lan}#{any}*#{lan}@#{lan}#{any}*#{let}\z/
+    /\A#{lan}(#{any}+#{lan})?@#{lan}#{any}*#{let}\z/
   end
   
   # below doesn't work with ruby 1.9.1; will redress
