@@ -36,7 +36,7 @@ Lail.PaginatedList = function(list, options) {
   this.gotoPage = function(page_number) {
     page_number = +page_number; // needs to be an integer
     if(page_number < 1) page_number = 1;
-    if(page_number > self.total_pages) page_number = self.total_pages;
+    if(page_number > self.page_count) page_number = self.page_count;
     if(page_number != self.current_page) __setCurrentPage(page_number);
   }
   
