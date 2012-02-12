@@ -144,8 +144,8 @@ Lail.set_alternating_styles = function(selector) {
 Lail.getDataSpread = function(values, min, max) {
   values.__each(function(value) {
     value = +value;
-    (!App.exists(min) || min > value) && (min = value);
-    (!App.exists(max) || max < value) && (max = value);
+    (!Lail.exists(min) || min > value) && (min = value);
+    (!Lail.exists(max) || max < value) && (max = value);
   });
   return [min, max];
 };
