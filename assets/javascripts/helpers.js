@@ -28,8 +28,12 @@ Lail.number_to_currency = function(money) {
 
 
 Lail.number_to_percentage = function(number) {
-  var percent = (number * 100).toFixed(1);
-  return percent + '%';
+  if(number == Infinity || number == null) {
+    return '&mdash;'
+  } else {
+    var percent = (number * 100).toFixed(1);
+    return percent + '%';
+  }
 };
 
 
