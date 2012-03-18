@@ -39,7 +39,7 @@ module ToSlug
     
     # Remove single quotes from input
     value.gsub!(/[']+/, '')
-
+    
     # Replace any non-word character (\W) with a space
     value.gsub!(/\W+/, ' ')
     
