@@ -48,7 +48,7 @@ Lail.PaginatedList = function(list, options) {
   }
   
   this.firstItemIndex = function() {
-    return (self.current_page - 1) * self.page_size;
+    return (self.current_page - 1) * self.page_size || 0;
   }
   
   this.lastItemIndex = function() {
