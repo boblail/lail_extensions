@@ -186,7 +186,7 @@ Lail.PaginatedList = function(list, options) {
   // !todo: use handlebars
   this.renderExtendedPagination = function() {
     var html = 'Listing <strong>';
-    if(self.count() > 0) { 
+    if(self.page_count > 1) { 
       html += (self.firstItemIndex()+1) + '&ndash;' + self.lastItemIndex() + '</strong> of <strong>';
     }
     return html + self.count() + '</strong>';
