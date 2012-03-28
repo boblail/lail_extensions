@@ -8,10 +8,20 @@ module Lail
       
       
       def last_sunday
+        # This is utterly ridiculous.
+        #
+        # For some reason when running _migrations_,
+        # 1.day.ago(self) returns a date 236 years
+        # in the past.
+        #
+        # For Date and DateTime objects, - 1
+        # subtracts 1 day and works in this strange
+        # situation.
+        #
         case self.wday
         when 0 then self
-        when 1 then 1.day.ago(self)
-        else        1.day.ago(self.at_beginning_of_week)
+        when 1 then self - 1 # 1.day.ago(self)
+        else        self.beginning_of_week - 1 # 1.day.ago(self.at_beginning_of_week)
         end
       end
       
@@ -26,9 +36,6 @@ module Lail
         later_date = self.at_end_of_month? ? 1.month.after(self.at_beginning_of_month) : self.at_beginning_of_month
         whole_months = later_date.get_months_since(earlier_date)
         (whole_months < 0) ? 0 : whole_months
-        # whole_months = self.at_beginning_of_month.months_since(earlier_date)
-        # whole_months += 1 if self.at_end_of_month?
-        # whole_months
       end
       alias :whole_months_since :get_whole_months_since
       
