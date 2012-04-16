@@ -44,7 +44,11 @@ module SettingsMachine
     
     def []=(key, value)
       raise(ArgumentError, "#{key} is not a field of #{self.class}") unless fields.member?(key)
-      @settings[key] = value
+      if value.nil?
+        @settings.delete(key) # so we're not serializing nil (e.g. as a Syck::PrivateType)
+      else
+        @settings[key] = value
+      end
       touch
     end
     
