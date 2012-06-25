@@ -46,6 +46,10 @@ Lail.ActiveRecord = Klass.extend({
     return this.__records.__collect(function(record) {return record[attribute];});
   },
   
+  groupBy: function(attribute) {
+    return this.__records.__group_by(function(record) {return record[attribute];});
+  },
+  
   
   
   update: function(records) {

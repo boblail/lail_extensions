@@ -12,6 +12,20 @@ if(!Array.prototype.in_groups_of) Array.prototype.in_groups_of = Array.prototype
 
 
 
+Array.prototype.__group_by = function(fn) {
+  var hash = {}, key, array;
+  for(var i=0, ii=this.length; i<ii; i++) {
+    key = fn(this[i]);
+    array = hash[key] || [];
+    array.push(this[i]);
+    hash[key] = array;
+  }
+  return hash;
+}
+if(!Array.prototype.groupBy) Array.prototype.groupBy = Array.prototype.__group_by;
+
+
+
 Array.prototype.__includes = function(item) {
   for(var i=0, ii=this.length; i<ii; i++) {
     if(this[i] == item) {
