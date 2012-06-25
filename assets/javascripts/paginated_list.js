@@ -13,6 +13,7 @@ Lail.PaginatedList = function(list, options) {
   this.page_count = 1;
   this.observer = new Observer();
   this.pagination_container = null;
+  this.during_init = false;
   
   
   
@@ -23,6 +24,7 @@ Lail.PaginatedList = function(list, options) {
   
   
   this.init = function(list, initialPage) {
+    self.during_init = true;
     self.set = list;
     self.set_length = self.set.length;
     self.page_count = parseInt(Math.ceil(self.set_length / self.page_size));
@@ -31,6 +33,7 @@ Lail.PaginatedList = function(list, options) {
     }
     self.current_page = 0;
     self.gotoPage(initialPage || 1);
+    self.during_init = false;
   }
   
   this.gotoPage = function(page_number) {
@@ -75,7 +78,7 @@ Lail.PaginatedList = function(list, options) {
   }
   
   function notifyOfPageChange() {
-    self.observer.fire('changed');
+    self.observer.fire('changed', {onInit: self.during_init});
   }
   
   
