@@ -23,7 +23,10 @@ Lail.PaginatedList = function(list, options) {
   
   
   
-  this.init = function(list, initialPage) {
+  this.init = function(list, initialPage, options) {
+    if((options || {}).page_size) {
+      self.page_size = options.page_size;
+    }
     self.during_init = true;
     self.set = list;
     self.set_length = self.set.length;
