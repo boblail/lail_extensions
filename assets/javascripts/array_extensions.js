@@ -96,6 +96,16 @@ if(!Array.prototype.reduce) Array.prototype.reduce = Array.prototype.__inject;
 
 
 
+Array.prototype.__eachWithObject = function(memo, fn) {
+  for(var i=0, ii=this.length; i<ii; i++) {
+    fn(memo, this[i]);
+  }
+  return memo;
+}
+if(!Array.prototype.eachWithObject) Array.prototype.eachWithObject = Array.prototype.__eachWithObject;
+
+
+
 Array.prototype.__grep = function(regex) {
   return this.__select(function(e) {
     return e.toString().match(regex);
