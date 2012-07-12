@@ -85,6 +85,17 @@ if(!Array.prototype.detect) Array.prototype.detect = Array.prototype.__find;
 
 
 
+Array.prototype.__inject = function(memo, fn) {
+  for(var i=0, ii=this.length; i<ii; i++) {
+    memo = fn(memo, this[i]);
+  }
+  return memo;
+}
+if(!Array.prototype.inject) Array.prototype.inject = Array.prototype.__inject;
+if(!Array.prototype.reduce) Array.prototype.reduce = Array.prototype.__inject;
+
+
+
 Array.prototype.__grep = function(regex) {
   return this.__select(function(e) {
     return e.toString().match(regex);
