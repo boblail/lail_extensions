@@ -98,6 +98,7 @@ Lail.allow_only_numbers = function(options) {
 Lail.__restrictInputToKeys = function(allowed) {
   function eventHandler(e) {
     var modifiers = Lail.__getModifiers(e);
+    if(e.ctrlKey || e.metaKey) { return; } // Allow Ctrl+? combinations
     !isAllowed(e.which, modifiers) && e.preventDefault();
   }
   function isAllowed(code, modifiers) {
