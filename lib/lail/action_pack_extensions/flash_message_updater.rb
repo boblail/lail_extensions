@@ -17,7 +17,7 @@ module Lail
       
       
       def update_flash_messages(*args)
-        args = [:notice, :error] if args.empty?
+        args = [:notice, :alert, :error] if args.empty?
         args.each do |key|
           update_flash_message(key)
         end
