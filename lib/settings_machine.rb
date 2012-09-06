@@ -16,7 +16,7 @@ module SettingsMachine
     end
     
     define_method(attribute) do
-      ivar = "@#{attribute}"
+      ivar = "@__settings_machine_#{attribute}"
       instance_variable_get(ivar) || begin
         hash = self[attribute]
         self[attribute] = hash = {} unless hash.is_a?(Hash) && !hash.empty?
