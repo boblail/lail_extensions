@@ -12,7 +12,7 @@ module SettingsMachine
     end
     
     if ancestors.member?(ActiveRecord::Base)
-      serialize attribute, Hash
+      serialize attribute
     end
     
     define_method(attribute) do
