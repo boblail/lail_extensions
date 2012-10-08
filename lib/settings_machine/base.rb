@@ -76,7 +76,7 @@ module SettingsMachine
     
     def touch
       if(parent == record)
-        parent.try("#{@original_attribute}_will_change!".to_sym)
+        parent.send(:write_attribute, @original_attribute, @settings)
       else
         parent.touch
       end
