@@ -44,6 +44,44 @@ Lail.concatQueryString = function(url, query) {
 
 
 
+Lail.allow_only_slug_characters = function(options) {
+  options = options || {};
+  var allowed = {};
+  for(var i=0; i<8; i++) { allowed[i] = []; }
+  
+  // Alt only              modifiers=1 (001)
+  // Ctrl only             modifiers=2 (010)
+  // Ctrl+Alt              modifiers=3 (011)
+  // Shift only            modifiers=4 (100)
+  // Shift+Alt             modifiers=5 (101)
+  // Shift+Ctrl            modifiers=6 (110)
+  // Shift+Alt+Ctrl        modifiers=7 (111)
+  // None of these keys    modifiers=0 (000)
+  
+  function allow() {
+    var args = Array.prototype.slice.call(arguments),
+        code = args.shift(),
+        modifiers = (args.length == 0 ? [0,1,2,3,4,5,6,7] : args);
+    modifiers.__each(function(modifier) {
+      allowed[modifier].push(code);
+    });
+  }
+  
+  allow(8);   // Allow backspace
+  allow(46);  // Allow delete
+  allow(37); allow(38); allow(39); allow(40); // Allow arrow keys
+  allow(9);   // Allow tab
+  allow(13);  // Allow enter
+  for(var i=48; i<=57; i++) { allow(i, [0]); }  // Allow numbers
+  for(var i=96; i<=105; i++) { allow(i, [0]); } // Allow numbers on the 10-key
+  for(var i=65; i<=91; i++) { allow(i, 0, 4); } // Allow letters
+  allow(189, 0, 4); // allow dashes and underscores
+  
+  return Lail.__restrictInputToKeys(allowed);
+}
+
+
+
 Lail.allow_only_numbers = function(options) {
   options = options || {};
   var allowed = {};
