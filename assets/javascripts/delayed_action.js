@@ -1,3 +1,4 @@
+var Lail; if(!Lail) Lail={};
 Lail.DelayedAction = function(callback, options) {
   // !todo: paste John Resig's code
   
