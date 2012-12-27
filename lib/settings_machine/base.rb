@@ -76,8 +76,10 @@ module SettingsMachine
     
     def touch
       if(parent == record)
-        parent.send(:write_attribute, @original_attribute, @settings)
-        parent.send("#{@original_attribute}_will_change!")
+        unless parent.frozen?
+          parent.send(:write_attribute, @original_attribute, @settings)
+          parent.send("#{@original_attribute}_will_change!")
+        end
       else
         parent.touch
       end
