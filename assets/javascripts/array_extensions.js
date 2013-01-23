@@ -156,6 +156,19 @@ if(!Array.prototype.findAll) Array.prototype.findAll = Array.prototype.__select;
 
 
 
+Array.prototype.__count_of = function(fn) {
+  var count = 0;
+  for(var i=0, ii=this.length; i<ii; i++) {
+    if(fn(this[i])) {
+      count += 1;
+    }
+  }
+  return count;
+}
+if(!Array.prototype.countOf) Array.prototype.countOf = Array.prototype.__count_of;
+
+
+
 Array.prototype.__dup = function() {
   return this.slice(0);
 }
