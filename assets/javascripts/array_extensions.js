@@ -12,6 +12,19 @@ if(!Array.prototype.in_groups_of) Array.prototype.in_groups_of = Array.prototype
 
 
 
+Array.prototype.__index_of = function(n) {
+  for(var i=0, ii=this.length; i<ii; i++) {
+    var e = this[i];
+    if(e == n) { 
+      return i;
+    }
+  }
+  return -1;
+}
+if(!Array.prototype.indexOf) Array.prototype.indexOf = Array.prototype.__index_of;
+
+
+
 Array.prototype.__group_by = function(fn) {
   var hash = {}, key, array;
   for(var i=0, ii=this.length; i<ii; i++) {
