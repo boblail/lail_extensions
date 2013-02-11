@@ -19,7 +19,10 @@ module SettingsMachine
       ivar = "@__settings_machine_#{attribute}"
       instance_variable_get(ivar) || begin
         hash = self[attribute]
-        self[attribute] = hash = {} unless hash.is_a?(Hash) && !hash.empty?
+        unless hash.is_a?(Hash)
+          hash = {}
+          self[attribute] = hash unless frozen?
+        end
         instance_variable_set(ivar, klass.new(self, attribute, hash))
       end
     end
