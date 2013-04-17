@@ -40,10 +40,6 @@ Lail.DelayedAction = function(callback, options) {
   }
   
   function fireCallback() {
-    try {
-      callback(_params);
-    } catch(e) {
-      App.debug(e);
-    }
+    callback(_params);
   }
 }
