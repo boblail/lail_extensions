@@ -42,4 +42,7 @@ Lail.DelayedAction = function(callback, options) {
   function fireCallback() {
     callback(_params);
   }
+  
+  this.reset = stopCountdown;
+  
 }
