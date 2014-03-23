@@ -4,6 +4,4 @@ require 'lail/active_model_extensions'
 require 'lail/core_extensions'
 require 'lail/test_extensions'
 
-require 'lail/simple_stub'
-
 require 'lail/rfc822'

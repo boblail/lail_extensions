@@ -1,9 +1,6 @@
 require 'lail/action_pack_extensions/action_builder'
 ActionController::Base.send :include, Lail::ActionPackExtensions::ActionBuilder
 
-require 'lail/action_pack_extensions/debug_params'
-ActionController::Base.send :include, Lail::ActionPackExtensions::DebugParams
-
 if !defined?(ActionView::Helpers::PrototypeHelper::JavaScriptGenerator)
   begin
     require 'action_view/helpers/prototype_helper'
