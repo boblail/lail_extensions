@@ -39,6 +39,18 @@ if(!Array.prototype.groupBy) Array.prototype.groupBy = Array.prototype.__group_b
 
 
 
+Array.prototype.__index_by = function(fn) {
+  var hash = {}, key;
+  for(var i=0, ii=this.length; i < ii; i++) {
+    key = fn(this[i]);
+    hash[key] = this[i];
+  }
+  return hash;
+}
+if(!Array.prototype.indexBy) Array.prototype.indexBy = Array.prototype.__index_by;
+
+
+
 Array.prototype.__includes = function(item) {
   for(var i=0, ii=this.length; i<ii; i++) {
     if(this[i] == item) {
