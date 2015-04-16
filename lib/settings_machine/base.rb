@@ -24,7 +24,8 @@ module SettingsMachine
     
     
     def initialize(parent, original_attribute, settings)
-      @parent, @original_attribute, @settings = parent, original_attribute, settings
+      @parent, @original_attribute = parent, original_attribute
+      @settings = parent.is_a?(ActiveRecord::Base) ? settings.deep_symbolize_keys : settings
     end
     
     attr_reader :parent, :original_attribute
